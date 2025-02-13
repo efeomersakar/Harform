@@ -13,11 +13,11 @@ public class RewardBoxController : MonoBehaviour
     {
         PlayerLayer = LayerMask.NameToLayer(stagPlayer);
     }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer.Equals(PlayerLayer))
+           if (other.gameObject.layer.Equals(PlayerLayer))
         {
+
             EventManager.Instance.RewardBoxTrigger();
         }
     }
