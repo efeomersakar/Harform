@@ -6,7 +6,6 @@ using DG.Tweening; // DOTween kütüphanesi eklenmeli
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 25f;
-    [SerializeField] private float moveDuration = 0.2f; //animasyonlar için önemlidir ne kadar sürede tamamlanacağını belirliyoruz
     [SerializeField] private float jumpForce = 30f;
     private Rigidbody rb;
     private PlayerState currentState;
@@ -14,8 +13,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative; // Çarpışma tespitini artırıyoruz
-        rb.interpolation = RigidbodyInterpolation.Interpolate; // Daha yumuşak hareket sağlıyoruz 
         rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation; //2D perpektif için Z rotasyonunu dondurduk
         currentState = PlayerState.Idle;
     }
@@ -102,21 +99,15 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, Vector2.down, 1.1f);
+        return Physics.Raycast(transform.position, Vector3.down, 1.1f);
     }
 
 
     private void HandleMovement()
     {
         float moveX = Input.GetAxis("Horizontal");
-
-        if (Mathf.Abs(moveX) > 0.1f)
-        {
-            float targetX = transform.position.x + (moveX * moveSpeed * Time.deltaTime);
-
-            transform.DOMoveX(targetX, moveDuration)
-                .SetEase(Ease.OutQuad);
-        }
+        Vector3 targetVelocity = new Vector3(moveX * moveSpeed, rb.velocity.y, 0);
+        rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, 0.2f);
     }
 
     public enum PlayerState
