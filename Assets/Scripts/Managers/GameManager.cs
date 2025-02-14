@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-       private void RewardCollect()
+       private void RewardCollect(Vector3 spawnPosition)
     {
         Debug.Log("Ödül Alındı");
     }

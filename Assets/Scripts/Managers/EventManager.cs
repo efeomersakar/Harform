@@ -12,7 +12,7 @@ public class EventManager : MonoBehaviour
     public event Action OnPause;
     public event Action OnEnd;
     //=======================================================================
-    public delegate void rewardCollected();
+    public delegate void rewardCollected(Vector3 SpawnPosition);
     public delegate void PlayerStateChange(PlayerController.PlayerState newState);
     public event rewardCollected onRewardCollected;
     public event PlayerStateChange onPlayerStateChange;
@@ -40,9 +40,9 @@ public class EventManager : MonoBehaviour
     }
 
     //==================================================================================
-    public void RewardBoxTrigger()
+    public void RewardBoxTrigger(Vector3 spawnPosition)
     {
-        onRewardCollected?.Invoke();
+        onRewardCollected?.Invoke(spawnPosition);
     }
     //==================================================================================
 

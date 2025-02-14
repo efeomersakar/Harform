@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
-            transform.DOScale(new Vector3(1.1f, 0.9f, 1f), 0.1f) // Zıplarken genişle & incel
+            transform.DOScale(new Vector3(1.1f, 0.9f, 1f), 0.1f)  
                 .OnComplete(() =>
                 {
                     rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -111,19 +111,19 @@ public class PlayerController : MonoBehaviour
         Vector3 targetVelocity = new Vector3(moveX * moveSpeed, rb.velocity.y, 0);
         rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, 0.2f);
 
-        if (moveX != 0)
-        {
-            transform.DORotate(new Vector3(0, 0, moveX * -10f), 0.2f)
-                .SetEase(Ease.OutQuad);
+        // if (moveX != 0)
+        // {
+        //     transform.DORotate(new Vector3(0, 0, moveX * -10f), 0.2f)
+        //         .SetEase(Ease.OutQuad);
 
-            transform.DOScale(new Vector3(1.1f, 0.9f, 1f), 0.2f)
-                .SetEase(Ease.OutQuad);
-        }
-        else
-        {
-            transform.DORotate(Vector3.zero, 0.2f);
-            transform.DOScale(Vector3.one, 0.2f);
-        }
+        //     transform.DOScale(new Vector3(1.1f, 0.9f, 1f), 0.2f)
+        //         .SetEase(Ease.OutQuad);
+        // }
+        // else
+        // {
+        //     transform.DORotate(Vector3.zero, 0.2f);
+        //     transform.DOScale(Vector3.one, 0.2f);
+        // }
     }
 
 
