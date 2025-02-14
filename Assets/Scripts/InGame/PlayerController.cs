@@ -6,13 +6,15 @@ using DG.Tweening; // DOTween kütüphanesi eklenmeli
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 25f;
-    [SerializeField] private float jumpForce = 30f;
+    [SerializeField] private float jumpForce = 5f;
     private Rigidbody rb;
+    private Vector3 playerScale;
     private PlayerState currentState;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        playerScale = transform.localScale;
         rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation; //2D perpektif için Z rotasyonunu dondurduk
         currentState = PlayerState.Idle;
     }
@@ -87,10 +89,15 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
-            transform.DOScale(new Vector3(1.1f, 0.9f, 1f), 0.1f)  
+            transform.DOScale(new Vector3(1, 2, 1), 0.1f)
                 .OnComplete(() =>
                 {
                     rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+                    DOVirtual.DelayedCall(0.3f, () =>
+                    {
+                        transform.DOScale(new Vector3(1, 1, 1), 0.1f);
+                    });
                 });
 
             return true;
