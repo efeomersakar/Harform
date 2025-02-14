@@ -5,11 +5,9 @@ using DG.Tweening;
 
 public class ObjectPool : MonoBehaviour
 {
-     private Queue<GameObject> coinQueue;
     [SerializeField] private GameObject CoinPrefab;
-    [SerializeField] private GameObject objectPrefab;
     [SerializeField] private int poolSize;
-   
+    private Queue<GameObject> coinQueue;
 
     public static ObjectPool Instance
     {

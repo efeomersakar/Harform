@@ -11,6 +11,8 @@ public class RewardBoxController : MonoBehaviour
     [SerializeField] private float jumpDuration = 0.2f;
     private int PlayerLayer;
     const string stagPlayer = "Player";
+    private bool isRewardGiven = false;
+
 
     void Start()
     {
@@ -21,8 +23,9 @@ public class RewardBoxController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer.Equals(PlayerLayer))
+        if (other.gameObject.layer.Equals(PlayerLayer) && !isRewardGiven)
         {
+            isRewardGiven = true;
             Vector3 targetPosition = transform.position + Vector3.up * jumpHeight;
             transform.DOMoveY(targetPosition.y, jumpDuration)
                 .SetEase(Ease.OutQuad)
@@ -33,6 +36,19 @@ public class RewardBoxController : MonoBehaviour
                 });
             Vector3 rewardSpawnPoint = transform.position;
             EventManager.Instance.RewardBoxTrigger(rewardSpawnPoint);
+        }
+        else
+        {
+            isRewardGiven = true;
+            Vector3 targetPosition = transform.position + Vector3.up * jumpHeight;
+            transform.DOMoveY(targetPosition.y, jumpDuration)
+                .SetEase(Ease.OutQuad)
+                .OnComplete(() =>
+                {
+                    transform.DOMoveY(transform.position.y - jumpHeight, jumpDuration)
+                        .SetEase(Ease.OutCubic);
+                });
+         
         }
     }
 
