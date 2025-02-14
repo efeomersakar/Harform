@@ -31,12 +31,12 @@ public class GameManager : MonoBehaviour
     //=========================================================================
     void OnEnable()
     {
-        EventManager.Instance.onRewardCollected += RewardCollect;
+        EventManager.Instance.onRewardBoxTouched += RewardCollect;
     }
     //=========================================================================
     void OnDisable()
     {
-        EventManager.Instance.onRewardCollected -= RewardCollect;
+        EventManager.Instance.onRewardBoxTouched -= RewardCollect;
 
     }
 

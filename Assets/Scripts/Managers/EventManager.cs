@@ -14,8 +14,11 @@ public class EventManager : MonoBehaviour
     //=======================================================================
     public delegate void rewardCollected(Vector3 SpawnPosition);
     public delegate void PlayerStateChange(PlayerController.PlayerState newState);
-    public event rewardCollected onRewardCollected;
+    public delegate void coinCollected(Vector3 PlayerPosition);
+    //==================================================================================
+    public event rewardCollected onRewardBoxTouched;
     public event PlayerStateChange onPlayerStateChange;
+    public event coinCollected onCoinCollect;
     //==================================================================================
     public GameState currentState;
     public static EventManager Instance
@@ -42,7 +45,7 @@ public class EventManager : MonoBehaviour
     //==================================================================================
     public void RewardBoxTrigger(Vector3 spawnPosition)
     {
-        onRewardCollected?.Invoke(spawnPosition);
+        onRewardBoxTouched?.Invoke(spawnPosition);
     }
     //==================================================================================
 
@@ -51,6 +54,13 @@ public class EventManager : MonoBehaviour
         onPlayerStateChange?.Invoke(newState);
     }
     //==================================================================================
+
+    public void coinTrigger(Vector3 PlayerPosition)
+    {
+        onCoinCollect?.Invoke(PlayerPosition);
+    }
+    //==================================================================================
+
     public void SetState(GameState newState)
     {
         currentState = newState;

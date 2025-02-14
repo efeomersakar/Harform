@@ -38,18 +38,16 @@ public class ObjectPool : MonoBehaviour
 
     private void OnEnable()
     {
-        if (EventManager.Instance != null)
-        {
-            EventManager.Instance.onRewardCollected += SpawnCoin;
-        }
+
+        EventManager.Instance.onRewardBoxTouched += SpawnCoin;
+
     }
 
     private void OnDisable()
     {
-        if (EventManager.Instance != null)
-        {
-            EventManager.Instance.onRewardCollected -= SpawnCoin;
-        }
+       
+            EventManager.Instance.onRewardBoxTouched -= SpawnCoin;
+        
     }
 
     private void SpawnCoin(Vector3 spawnPosition)
@@ -85,7 +83,7 @@ public class ObjectPool : MonoBehaviour
             });
     }
 
-    public void ReturnCoin(GameObject coin)
+ public void ReturnCoinToPool(GameObject coin)
     {
         coin.SetActive(false);
         coinQueue.Enqueue(coin);
