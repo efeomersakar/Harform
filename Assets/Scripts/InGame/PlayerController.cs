@@ -118,23 +118,20 @@ public class PlayerController : MonoBehaviour
         Vector3 targetVelocity = new Vector3(moveX * moveSpeed, rb.velocity.y, 0);
         rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, 0.2f);
 
-        // if (moveX != 0)
-        // {
-        //     transform.DORotate(new Vector3(0, 0, moveX * -10f), 0.2f)
-        //         .SetEase(Ease.OutQuad);
-
-        //     transform.DOScale(new Vector3(1.1f, 0.9f, 1f), 0.2f)
-        //         .SetEase(Ease.OutQuad);
-        // }
-        // else
-        // {
-        //     transform.DORotate(Vector3.zero, 0.2f);
-        //     transform.DOScale(Vector3.one, 0.2f);
-        // }
+        if(moveX != 0)
+        {
+            Move(moveX);
+        }
+       
     }
 
 
     //================================================================
+    void Move(float moveX)
+    {
+        transform.DOMoveX(transform.position.x + moveX * moveSpeed, 0.5f)
+                 .SetEase(Ease.OutBounce);
+    }
     //=========================================================
     public enum PlayerState
     {
