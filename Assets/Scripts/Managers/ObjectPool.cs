@@ -5,37 +5,38 @@ using DG.Tweening;
 
 public class ObjectPool : MonoBehaviour
 {
+     private Queue<GameObject> coinQueue;
     [SerializeField] private GameObject CoinPrefab;
-    [SerializeField] private int poolSize = 1;
+    [SerializeField] private GameObject objectPrefab;
+    [SerializeField] private int poolSize;
+   
 
-    private Queue<GameObject> coinQueue;
-
-    public static ObjectPool Instance { get; private set; }
+    public static ObjectPool Instance
+    {
+        get;
+        private set;
+    }
 
     //==================================================================================
     void Awake()
     {
-        if (Instance == null)
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject); 
+            return;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
 
         coinQueue = new Queue<GameObject>();
-
         for (int i = 0; i < poolSize; i++)
         {
-
             GameObject coin = Instantiate(CoinPrefab);
             coin.SetActive(false);
             coinQueue.Enqueue(coin);
         }
     }
-
     private void OnEnable()
     {
 
@@ -45,12 +46,12 @@ public class ObjectPool : MonoBehaviour
 
     private void OnDisable()
     {
-       
-            EventManager.Instance.onRewardBoxTouched -= SpawnCoin;
-        
+
+        EventManager.Instance.onRewardBoxTouched -= SpawnCoin;
+
     }
 
-    private void SpawnCoin(Vector3 spawnPosition)
+    public void SpawnCoin(Vector3 spawnPosition)
     {
         GameObject coin;
 
@@ -61,6 +62,7 @@ public class ObjectPool : MonoBehaviour
         else
         {
             coin = Instantiate(CoinPrefab);
+            coin.SetActive(false);
         }
 
         coin.transform.position = spawnPosition;
@@ -83,7 +85,7 @@ public class ObjectPool : MonoBehaviour
             });
     }
 
- public void ReturnCoinToPool(GameObject coin)
+    public void ReturnCoinToPool(GameObject coin)
     {
         coin.SetActive(false);
         coinQueue.Enqueue(coin);

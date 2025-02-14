@@ -31,32 +31,18 @@ public class GameManager : MonoBehaviour
     //=========================================================================
     void OnEnable()
     {
-        EventManager.Instance.onRewardBoxTouched += RewardCollect;
+        EventManager.Instance.onCoinCollect += coinCollected;
     }
     //=========================================================================
     void OnDisable()
     {
-        EventManager.Instance.onRewardBoxTouched -= RewardCollect;
+        EventManager.Instance.onCoinCollect -= coinCollected;
 
     }
-
- 
-
     //=========================================================================
-
-    void Start()
+    private void coinCollected(Vector3 playerPosition)
     {
-
+        coin++;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-       private void RewardCollect(Vector3 spawnPosition)
-    {
-        Debug.Log("Ödül Alındı");
-    }
 }

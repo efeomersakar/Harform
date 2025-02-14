@@ -9,14 +9,14 @@ public class RewardBoxController : MonoBehaviour
 {
     [SerializeField] private float jumpHeight = 0.5f;
     [SerializeField] private float jumpDuration = 0.2f;
- 
-    int PlayerLayer;
+    private int PlayerLayer;
     const string stagPlayer = "Player";
 
     void Start()
     {
         PlayerLayer = LayerMask.NameToLayer(stagPlayer);
-       
+
+
     }
 
     private void OnCollisionEnter(Collision other)
@@ -36,5 +36,5 @@ public class RewardBoxController : MonoBehaviour
         }
     }
 
-
 }
+
