@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Numerics;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 25f;
-    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float moveSpeed = 10f;
     private Rigidbody rb;
 
     private PlayerState currentState;
@@ -100,24 +100,10 @@ public class PlayerController : MonoBehaviour
     private void HandleMovement()
     {
         float moveX = Input.GetAxis("Horizontal");
-        float moveY = Input.GetAxis("Vertical");
+        float moveY = Input.GetAxis("Vertical");   
 
-        Vector3 targetVelocity = new Vector3(moveX * moveSpeed, moveY * moveSpeed, 0);
-
-        rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, 0.2f);
-
-        if (moveX != 0)
-        {
-            Move(moveX);
-        }
-
-    }
-
-    //================================================================
-    void Move(float moveX)
-    {
-        transform.DOMoveX(transform.position.x + moveX * moveSpeed, 0.5f)
-                 .SetEase(Ease.OutBounce);
+        UnityEngine.Vector3 movement = new UnityEngine.Vector3(moveX, moveY, 0);
+        transform.Translate(movement * moveSpeed * Time.deltaTime);
     }
     //=========================================================
     public enum PlayerState

@@ -79,7 +79,6 @@ public class GameManager : MonoBehaviour
 
     }
     //====================================================================
-
     private void coinCollected(Vector3 playerPosition)
     {
         coin++;
@@ -93,12 +92,14 @@ public class GameManager : MonoBehaviour
             lives++;
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene(currentSceneIndex + 1);
+            EventManager.Instance.SetState(EventManager.GameState.LevelComplete);
             
         }
         else
         {
             coin = 0;
             lives=3;
+            EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
         }
 
     }
