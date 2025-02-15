@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
     {
         if (EventManager.Instance.currentState != EventManager.GameState.GameContinue)
         {
-            return;  // Eğer oyun devam etmiyorsa, Update'in geri kalanını çalıştırma
+            return; 
         }
 
         EndGameTime += Time.deltaTime;

@@ -7,7 +7,6 @@ using DG.Tweening;
 
 public class UIController : MonoBehaviour
 {
-
     //Button
     private Button playButton;
     private Button loadButton;
@@ -23,50 +22,59 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI LivesText;
     [SerializeField] private TextMeshProUGUI EndGameText;
     [SerializeField] private TextMeshProUGUI ScoreText;
-    //===============================================================
 
-    public static UIController Instance
+    public static UIController Instance { get; private set; }
+
+    void Awake()
     {
-        get;
-        private set;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-    //===============================================================
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        EventManager.Instance.onCoinCollect += coinTextEvent;
-        EventManager.Instance.onEndgameController += LevelTextEvent;
-        EventManager.Instance.onEndgameController += LivesTextEvent;
-
+        if (EventManager.Instance != null)
+        {
+            EventManager.Instance.onCoinCollect += coinTextEvent;
+            EventManager.Instance.onEndgameController += LevelTextEvent;
+            EventManager.Instance.onEndgameController += LivesTextEvent;
+        }
     }
-    //===============================================================
+
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        EventManager.Instance.onCoinCollect -= coinTextEvent;
-        EventManager.Instance.onEndgameController -= LevelTextEvent;
-        EventManager.Instance.onEndgameController -= LivesTextEvent;
-
-
+        if (EventManager.Instance != null)
+        {
+            EventManager.Instance.onCoinCollect -= coinTextEvent;
+            EventManager.Instance.onEndgameController -= LevelTextEvent;
+            EventManager.Instance.onEndgameController -= LivesTextEvent;
+        }
     }
-    //===============================================================
+
     private void Start()
     {
-
-        EventManager.Instance.SetState(EventManager.GameState.GameContinue);
-
+        if (EventManager.Instance != null)
+        {
+            EventManager.Instance.SetState(EventManager.GameState.GameContinue);
+        }
     }
-    //==================================================================================
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UIElements();
     }
-    //===============================================================
 
     private void UIElements()
     {
-
         if (SceneManager.GetActiveScene().name == "MainMenu")
         {
             playButton = GameObject.Find("PlayButton")?.GetComponent<Button>();
@@ -74,98 +82,106 @@ public class UIController : MonoBehaviour
             optionsButton = GameObject.Find("OptionsButton")?.GetComponent<Button>();
             exitButton = GameObject.Find("ExitButton")?.GetComponent<Button>();
 
-            if (playButton) playButton.onClick.AddListener(PlayGame);
-            if (loadButton) loadButton.onClick.AddListener(LoadGame);
-            if (optionsButton) optionsButton.onClick.AddListener(OpenOptions);
-            if (exitButton) exitButton.onClick.AddListener(ExitGame);
+            if (playButton != null) playButton.onClick.AddListener(PlayGame);
+            if (loadButton != null) loadButton.onClick.AddListener(LoadGame);
+            if (optionsButton != null) optionsButton.onClick.AddListener(OpenOptions);
+            if (exitButton != null) exitButton.onClick.AddListener(ExitGame);
         }
-        else if (SceneManager.GetActiveScene().name == "DefeatScene")
+
+        if (SceneManager.GetActiveScene().name == "DefeatScene")
         {
             YouLoseText = GameObject.Find("YouLoseText")?.GetComponent<TextMeshProUGUI>();
             TryAgainButton = GameObject.Find("TryAgainButton")?.GetComponent<Button>();
             MainMenuButton = GameObject.Find("MainMenuButton")?.GetComponent<Button>();
             exitButton = GameObject.Find("ExitButton")?.GetComponent<Button>();
 
-            if (TryAgainButton) TryAgainButton.onClick.AddListener(TryAgain);
-            if (MainMenuButton) MainMenuButton.onClick.AddListener(GoToMainMenu);
-            if (exitButton) exitButton.onClick.AddListener(ExitGame);
+            if (TryAgainButton != null) TryAgainButton.onClick.AddListener(TryAgain);
+            if (MainMenuButton != null) MainMenuButton.onClick.AddListener(GoToMainMenu);
+            if (exitButton != null) exitButton.onClick.AddListener(ExitGame);
             YouLoseTextAnimation();
         }
     }
-    //===============================================================
+
     private void PlayGame()
     {
         Debug.Log("Play Button Clicked!");
         SceneManager.LoadScene("Level1");
     }
-    //===============================================================
+
     private void LoadGame()
     {
         Debug.Log("Load Button Clicked! (Şu an boş)");
     }
-    //===============================================================
+
     private void OpenOptions()
     {
         Debug.Log("Options Button Clicked! (Şu an boş)");
     }
-    //===============================================================
+
     private void ExitGame()
     {
         Debug.Log("Exit Button Clicked!");
         Application.Quit();
     }
+
     private void TryAgain()
     {
-        // if (SceneManager.GetActiveScene().name == "DefeatScene")
-        // {
-        //     GameManager.Instance.lives=3;
-        //     GameManager.Instance.coin=0;
-        //     SceneManager.LoadScene("Level" + GameManager.Instance.level);
-        // }
-        // else
-        // {
-        //     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        // }
+        if (SceneManager.GetActiveScene().name == "DefeatScene")
+        {
+            GameManager.Instance.lives = 3;
+            GameManager.Instance.coin = 0;
+            SceneManager.LoadScene("Level" + GameManager.Instance.level);
+            EventManager.Instance.SetState(EventManager.GameState.GameContinue);
+
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     private void GoToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
-    //==================================================================================
 
-
-    //TEXT'LER
-    //===============================================================
     private void coinTextEvent(Vector3 PlayerPosition)
     {
         StartCoroutine(coinNum());
     }
-    //==================================================================================
 
     IEnumerator coinNum()
     {
         yield return new WaitForSeconds(0.1f);
-        coinText.text = "COIN: " + GameManager.Instance.coin;
+        if (coinText != null)
+        {
+            coinText.text = "COIN: " + GameManager.Instance.coin;
+        }
     }
-    //==================================================================================
+
     private void LevelTextEvent(bool iswin)
     {
-        levelText.text = "LEVEL " + GameManager.Instance.level;
+        if (levelText != null)
+        {
+            levelText.text = "LEVEL " + GameManager.Instance.level;
+        }
     }
-    //==================================================================================
+
     private void LivesTextEvent(bool iswin)
     {
-        LivesText.text = "LIVES: " + GameManager.Instance.lives;
+        if (LivesText != null)
+        {
+            LivesText.text = "LIVES: " + GameManager.Instance.lives;
+        }
     }
-    //==================================================================================
+
     private void YouLoseTextAnimation()
     {
         if (YouLoseText != null)
         {
-
+            DOTween.Init();
             YouLoseText.transform.DOScale(Vector3.one * 1.5f, 0.5f)
-                .SetLoops(-1, LoopType.Yoyo) //sonsuz döngü ekliyor
+                .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.InOutSine);
 
             YouLoseText.DOColor(new Color(1f, 0f, 0f), 0.5f)
@@ -173,5 +189,4 @@ public class UIController : MonoBehaviour
                 .SetEase(Ease.Linear);
         }
     }
-
 }
