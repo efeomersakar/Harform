@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 
 public class EventManager : MonoBehaviour
@@ -15,7 +16,7 @@ public class EventManager : MonoBehaviour
     public delegate void rewardCollected(Vector3 SpawnPosition);
     public delegate void PlayerStateChange(PlayerController.PlayerState newState);
     public delegate void coinCollected(Vector3 PlayerPosition);
-    public delegate void EndGameController(bool isWin, int score);
+    public delegate void EndGameController(bool isWin);
     public delegate void EnemyAttack();
 
 
@@ -69,9 +70,9 @@ public class EventManager : MonoBehaviour
     }
     //==================================================================================
 
-    public void EndGame(bool isWin, int score)
+    public void EndGame(bool isWin)
     {
-        onEndgameController?.Invoke(isWin, score);
+        onEndgameController?.Invoke(isWin);
     }
     //==================================================================================
     public void EnemyAttacked()
@@ -100,6 +101,7 @@ public class EventManager : MonoBehaviour
                 break;
             case GameState.End:
                 OnEnd?.Invoke();
+                SceneManager.LoadScene("DefeatScene");
                 break;
         }
     }

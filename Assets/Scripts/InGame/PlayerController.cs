@@ -8,13 +8,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 25f;
     [SerializeField] private float jumpForce = 5f;
     private Rigidbody rb;
-    private Vector3 playerScale;
+
     private PlayerState currentState;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        playerScale = transform.localScale;
+   
         currentState = PlayerState.Idle;
     }
     //=====================================================================
@@ -109,7 +109,6 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
 
     //================================================================
     void Move(float moveX)

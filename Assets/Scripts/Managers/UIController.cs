@@ -18,10 +18,8 @@ public class UIController : MonoBehaviour
 
     //TEXT
     [SerializeField] private TextMeshProUGUI YouLoseText;
-
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private TextMeshProUGUI levelText;
-
     [SerializeField] private TextMeshProUGUI LivesText;
     [SerializeField] private TextMeshProUGUI EndGameText;
     [SerializeField] private TextMeshProUGUI ScoreText;
@@ -116,10 +114,18 @@ public class UIController : MonoBehaviour
         Debug.Log("Exit Button Clicked!");
         Application.Quit();
     }
-    // Fonksiyonlar
     private void TryAgain()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // if (SceneManager.GetActiveScene().name == "DefeatScene")
+        // {
+        //     GameManager.Instance.lives=3;
+        //     GameManager.Instance.coin=0;
+        //     SceneManager.LoadScene("Level" + GameManager.Instance.level);
+        // }
+        // else
+        // {
+        //     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // }
     }
 
     private void GoToMainMenu()
@@ -143,12 +149,12 @@ public class UIController : MonoBehaviour
         coinText.text = "COIN: " + GameManager.Instance.coin;
     }
     //==================================================================================
-    private void LevelTextEvent(bool iswin, int score)
+    private void LevelTextEvent(bool iswin)
     {
         levelText.text = "LEVEL " + GameManager.Instance.level;
     }
     //==================================================================================
-    private void LivesTextEvent(bool iswin, int score)
+    private void LivesTextEvent(bool iswin)
     {
         LivesText.text = "LIVES: " + GameManager.Instance.lives;
     }
@@ -157,13 +163,13 @@ public class UIController : MonoBehaviour
     {
         if (YouLoseText != null)
         {
-           
-            YouLoseText.transform.DOScale(Vector3.one * 1.5f, 0.5f) 
+
+            YouLoseText.transform.DOScale(Vector3.one * 1.5f, 0.5f)
                 .SetLoops(-1, LoopType.Yoyo) //sonsuz döngü ekliyor
-                .SetEase(Ease.InOutSine); 
+                .SetEase(Ease.InOutSine);
 
             YouLoseText.DOColor(new Color(1f, 0f, 0f), 0.5f)
-                .SetLoops(-1, LoopType.Yoyo) 
+                .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.Linear);
         }
     }

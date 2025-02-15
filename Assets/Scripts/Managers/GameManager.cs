@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class GameManager : MonoBehaviour
     public int score = 0;
     public float EndGameTime = 0;
     public int lives = 3;
+    private bool isGameOver = false;
+
     public static GameManager Instance
 
     {
@@ -37,6 +40,7 @@ public class GameManager : MonoBehaviour
         EventManager.Instance.onEndgameController += Endgame;
         EventManager.Instance.onEnemyAttacking += EnemyAttack;
 
+
     }
     //=========================================================================
     void OnDisable()
@@ -54,41 +58,43 @@ public class GameManager : MonoBehaviour
         EndGameTime += Time.deltaTime;
         if (EndGameTime > 2)
         {
-            EventManager.Instance.EndGame(false, 0);
+            EventManager.Instance.EndGame(false);
             EndGameTime = 0;
             lives--;
+            
         }
-        //====================================================================
-        if (lives <= 0)
+        if (lives <= 0 && !isGameOver)
         {
+            isGameOver = true;
             EventManager.Instance.SetState(EventManager.GameState.End);
+            Debug.Log("END");
         }
+
     }
+    //====================================================================
+
     //=========================================================================
     private void coinCollected(Vector3 playerPosition)
     {
         coin++;
     }
     //==========================================================================
-    public void Endgame(bool isWin, int score)
+    public void Endgame(bool isWin)
     {
-        StartCoroutine(EndgameRoutine(isWin, score));
+        StartCoroutine(EndgameRoutine(isWin));
     }
     //==========================================================================
-    private IEnumerator EndgameRoutine(bool isWin, int score)
+    private IEnumerator EndgameRoutine(bool isWin)
     {
         yield return new WaitForSeconds(5f);
 
         if (isWin)
         {
-            EventManager.Instance.SetState(EventManager.GameState.GameLoading);
-
             yield return new WaitForSeconds(3f);
             level++;
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene(currentSceneIndex + 1);
             yield return new WaitForSeconds(1f);
-            EventManager.Instance.SetState(EventManager.GameState.GameContinue);
             this.score = 100 + (coin * 10);
         }
         else
