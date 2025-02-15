@@ -15,10 +15,18 @@ public class EventManager : MonoBehaviour
     public delegate void rewardCollected(Vector3 SpawnPosition);
     public delegate void PlayerStateChange(PlayerController.PlayerState newState);
     public delegate void coinCollected(Vector3 PlayerPosition);
+    public delegate void EndGameController(bool isWin, int score);
+    public delegate void EnemyAttack();
+
+
     //==================================================================================
     public event rewardCollected onRewardBoxTouched;
     public event PlayerStateChange onPlayerStateChange;
+
     public event coinCollected onCoinCollect;
+    public event EndGameController onEndgameController;
+    public event EnemyAttack onEnemyAttacking;
+
     //==================================================================================
     public GameState currentState;
     public static EventManager Instance
@@ -61,6 +69,17 @@ public class EventManager : MonoBehaviour
     }
     //==================================================================================
 
+    public void EndGame(bool isWin, int score)
+    {
+        onEndgameController?.Invoke(isWin, score);
+    }
+    //==================================================================================
+    public void EnemyAttacked()
+    {
+        onEnemyAttacking?.Invoke();
+    }
+
+    //==================================================================================
     public void SetState(GameState newState)
     {
         currentState = newState;

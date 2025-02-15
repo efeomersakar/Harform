@@ -13,6 +13,9 @@ public class UIController : MonoBehaviour
     private Button optionsButton;
     private Button exitButton;
     [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private TextMeshProUGUI levelText;
+
+    [SerializeField] private TextMeshProUGUI LivesText;
     [SerializeField] private TextMeshProUGUI EndGameText;
     [SerializeField] private TextMeshProUGUI ScoreText;
     public static UIController Instance
@@ -25,12 +28,19 @@ public class UIController : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         EventManager.Instance.onCoinCollect += coinTextEvent;
+        EventManager.Instance.onEndgameController += LevelTextEvent;
+        EventManager.Instance.onEndgameController += LivesTextEvent;
+
     }
     //===============================================================
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         EventManager.Instance.onCoinCollect -= coinTextEvent;
+        EventManager.Instance.onEndgameController -= LevelTextEvent;
+        EventManager.Instance.onEndgameController -= LivesTextEvent;
+
+
     }
     //===============================================================
     private void Start()
@@ -98,4 +108,15 @@ public class UIController : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         coinText.text = "COIN: " + GameManager.Instance.coin;
     }
+    //==================================================================================
+    private void LevelTextEvent(bool iswin, int score)
+    {
+        levelText.text = "LEVEL " + GameManager.Instance.level;
+    }
+    //==================================================================================
+    private void LivesTextEvent(bool iswin, int score)
+    {
+        LivesText.text = "LIVES: " + GameManager.Instance.lives;
+    }
+
 }
