@@ -18,8 +18,7 @@ public class EventManager : MonoBehaviour
     public delegate void rewardCollected(Vector3 SpawnPosition);
     public delegate void PlayerStateChange(PlayerController.PlayerState newState);
     public delegate void coinCollected(Vector3 PlayerPosition);
-    public delegate void EndGameController(bool isWin);
-    public delegate void EnemyAttack();
+    public delegate void EndGameController(bool isWin, int lives);
 
 
     //==================================================================================
@@ -28,7 +27,6 @@ public class EventManager : MonoBehaviour
 
     public event coinCollected onCoinCollect;
     public event EndGameController onEndgameController;
-    public event EnemyAttack onEnemyAttacking;
 
     //==================================================================================
     public GameState currentState;
@@ -72,15 +70,11 @@ public class EventManager : MonoBehaviour
     }
     //==================================================================================
 
-    public void EndGame(bool isWin)
+    public void EndGame(bool isWin, int lives)
     {
-        onEndgameController?.Invoke(isWin);
+        onEndgameController?.Invoke(isWin,lives);
     }
     //==================================================================================
-    public void EnemyAttacked()
-    {
-        onEnemyAttacking?.Invoke();
-    }
 
     //==================================================================================
     public void SetState(GameState newState)

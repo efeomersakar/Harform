@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
     {
         EventManager.Instance.onCoinCollect += coinCollected;
         EventManager.Instance.onEndgameController += Endgame;
-        EventManager.Instance.onEnemyAttacking += EnemyAttack;
 
 
     }
@@ -48,7 +47,6 @@ public class GameManager : MonoBehaviour
     {
         EventManager.Instance.onCoinCollect -= coinCollected;
         EventManager.Instance.onEndgameController -= Endgame;
-        EventManager.Instance.onEnemyAttacking -= EnemyAttack;
 
 
     }
@@ -61,16 +59,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (EventManager.Instance.currentState != EventManager.GameState.GameContinue)
-        {
-            return; 
-        }
 
         EndGameTime += Time.deltaTime;
 
         if (EndGameTime > 2)
         {
-            EventManager.Instance.EndGame(false);
+            EventManager.Instance.EndGame(false, lives);
             EndGameTime = 0;
             lives--;
         }
@@ -86,42 +80,30 @@ public class GameManager : MonoBehaviour
     }
     //====================================================================
 
-    //=========================================================================
     private void coinCollected(Vector3 playerPosition)
     {
         coin++;
     }
     //==========================================================================
-    public void Endgame(bool isWin)
+    public void Endgame(bool isWin, int lives)
     {
-        StartCoroutine(EndgameWait(isWin));
-    }
-    //==========================================================================
-    private IEnumerator EndgameWait(bool isWin)
-    {
-        yield return new WaitForSeconds(5f);
-
         if (isWin)
         {
-            yield return new WaitForSeconds(3f);
             level++;
+            lives++;
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene(currentSceneIndex + 1);
-            yield return new WaitForSeconds(1f);
-            this.score = 100 + (coin * 10);
+            
         }
         else
         {
-            EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
             coin = 0;
+            lives=3;
         }
-    }
 
-    //=========================================================================
-    private void EnemyAttack()
-    {
-        lives--;
     }
+    //==========================================================================
+    //=========================================================================
 
 
 }

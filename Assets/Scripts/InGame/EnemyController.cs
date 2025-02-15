@@ -24,7 +24,8 @@ public class EnemyController : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Debug.Log("Enemy, Player'a çarptı!");
-            EventManager.Instance.EnemyAttacked();
+            GameManager.Instance.lives--;
+            
         }
     }
 }

@@ -480,9 +480,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 141640257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -232, y: -47}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 111, y: -47}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &533378124
@@ -594,7 +594,6 @@ GameObject:
   - component: {fileID: 762360559}
   - component: {fileID: 762360558}
   - component: {fileID: 762360557}
-  - component: {fileID: 762360560}
   m_Layer: 0
   m_Name: FinishTouch
   m_TagString: Untagged
@@ -688,18 +687,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 762360555}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &762360560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 762360555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccff946ad0acad5458e37acbe17cf47f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &780311407
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,7 +1147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1066080831}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -19.13612, y: 6.3407354, z: -9.969384}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1181,9 +1168,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   YouLoseText: {fileID: 0}
-  coinText: {fileID: 1419825404}
-  levelText: {fileID: 814463868}
-  LivesText: {fileID: 533378124}
+  levelText: {fileID: 0}
+  LivesText: {fileID: 0}
+  CoinText: {fileID: 0}
   EndGameText: {fileID: 0}
   ScoreText: {fileID: 0}
 --- !u!1 &1161249799
@@ -1575,7 +1562,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'COIN: 0'
+  m_text: 'COIN:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2333,7 +2320,7 @@ MonoBehaviour:
   level: 1
   coin: 0
   score: 0
-  EndGameTime: -62.49
+  EndGameTime: -108.4
   lives: 3
 --- !u!1 &3524927325624022991
 GameObject:
@@ -2733,7 +2720,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 8811902005792609940}
   - {fileID: 2016621311}
-  - {fileID: 1066080832}
   - {fileID: 301373411}
   - {fileID: 9100657081161690903}
   - {fileID: 780311408}
+  - {fileID: 1066080832}

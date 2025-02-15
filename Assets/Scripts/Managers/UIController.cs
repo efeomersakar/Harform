@@ -17,35 +17,25 @@ public class UIController : MonoBehaviour
 
     //TEXT
     [SerializeField] private TextMeshProUGUI YouLoseText;
-    [SerializeField] private TextMeshProUGUI coinText;
+
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI LivesText;
+    [SerializeField] private TextMeshProUGUI CoinText;
     [SerializeField] private TextMeshProUGUI EndGameText;
     [SerializeField] private TextMeshProUGUI ScoreText;
 
-    public static UIController Instance { get; private set; }
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        DontDestroyOnLoad(this);
     }
-
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         if (EventManager.Instance != null)
         {
             EventManager.Instance.onCoinCollect += coinTextEvent;
-            EventManager.Instance.onEndgameController += LevelTextEvent;
-            EventManager.Instance.onEndgameController += LivesTextEvent;
+            EventManager.Instance.onEndgameController += LivesandLevelText;
         }
     }
 
@@ -55,8 +45,7 @@ public class UIController : MonoBehaviour
         if (EventManager.Instance != null)
         {
             EventManager.Instance.onCoinCollect -= coinTextEvent;
-            EventManager.Instance.onEndgameController -= LevelTextEvent;
-            EventManager.Instance.onEndgameController -= LivesTextEvent;
+            EventManager.Instance.onEndgameController -= LivesandLevelText;
         }
     }
 
@@ -99,6 +88,27 @@ public class UIController : MonoBehaviour
             if (MainMenuButton != null) MainMenuButton.onClick.AddListener(GoToMainMenu);
             if (exitButton != null) exitButton.onClick.AddListener(ExitGame);
             YouLoseTextAnimation();
+        }
+
+        if (SceneManager.GetActiveScene().name == "Level" + GameManager.Instance.level)
+        {
+            CoinText = GameObject.Find("CoinText")?.GetComponent<TextMeshProUGUI>();
+            levelText = GameObject.Find("LevelText")?.GetComponent<TextMeshProUGUI>();
+            LivesText = GameObject.Find("Lives")?.GetComponent<TextMeshProUGUI>();
+        }
+        else
+        {
+
+            playButton = null;
+            loadButton = null;
+            optionsButton = null;
+            exitButton = null;
+            YouLoseText = null;
+            TryAgainButton = null;
+            MainMenuButton = null;
+            CoinText = null;
+            levelText = null;
+            LivesText = null;
         }
     }
 
@@ -153,24 +163,17 @@ public class UIController : MonoBehaviour
     IEnumerator coinNum()
     {
         yield return new WaitForSeconds(0.1f);
-        if (coinText != null)
+        if (CoinText != null)
         {
-            coinText.text = "COIN: " + GameManager.Instance.coin;
+            CoinText.text = "COIN: " + GameManager.Instance.coin;
         }
     }
 
-    private void LevelTextEvent(bool iswin)
+    private void LivesandLevelText(bool iswin, int lives)
     {
         if (levelText != null)
         {
             levelText.text = "LEVEL " + GameManager.Instance.level;
-        }
-    }
-
-    private void LivesTextEvent(bool iswin)
-    {
-        if (LivesText != null)
-        {
             LivesText.text = "LIVES: " + GameManager.Instance.lives;
         }
     }
