@@ -12,8 +12,9 @@ public class GameManager : MonoBehaviour
     public int coin = 0;
     public float EndGameTime = 0;
     public int lives = 3;
-    private bool isGameOver = false;
-
+    private bool isEnemyHit = false;
+    int PlayerLayer;
+    const string stagPlayer = "Player";
     public static GameManager Instance
 
     {
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
     void OnEnable()
     {
         EventManager.Instance.onCoinCollect += coinCollected;
+        EventManager.Instance.OnEnemyAttacked += EnemyHit;
         EventManager.Instance.onEndgameController += Endgame;
 
 
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour
     void OnDisable()
     {
         EventManager.Instance.onCoinCollect -= coinCollected;
+        EventManager.Instance.OnEnemyAttacked -= EnemyHit;
         EventManager.Instance.onEndgameController -= Endgame;
 
 
@@ -52,6 +55,9 @@ public class GameManager : MonoBehaviour
     //=========================================================================
     void Start()
     {
+        PlayerLayer = LayerMask.NameToLayer(stagPlayer);
+
+
         EventManager.Instance.SetState(EventManager.GameState.Initial);
         EventManager.Instance.SetState(EventManager.GameState.GameContinue);
     }
@@ -61,20 +67,17 @@ public class GameManager : MonoBehaviour
 
         EndGameTime += Time.deltaTime;
 
-        if (EndGameTime > 2)
+        if (EndGameTime > 2 || isEnemyHit)
         {
-            EventManager.Instance.EndGame(false, lives);
-            EndGameTime = 0;
             lives--;
-        }
+            EndGameTime = 0;
+            isEnemyHit = false;
 
-        if (lives <= 0 && !isGameOver)
-        {
-            isGameOver = true;
-            EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
-            lives = 3;
-            coin = 0;
-
+            if (lives <= 0)
+            {
+                EventManager.Instance.EndGame(false, lives);
+                EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
+            }
         }
 
     }
@@ -89,22 +92,23 @@ public class GameManager : MonoBehaviour
         if (isWin)
         {
             level++;
-            lives++;
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene(currentSceneIndex + 1);
             EventManager.Instance.SetState(EventManager.GameState.LevelComplete);
-            
         }
         else
         {
             coin = 0;
-            lives=3;
+            lives = 3;
             EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
         }
 
     }
     //==========================================================================
+    private void EnemyHit()
+    {
+        isEnemyHit = true;
+    }
     //=========================================================================
-
 
 }
