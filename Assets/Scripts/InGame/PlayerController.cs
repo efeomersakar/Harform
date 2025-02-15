@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerScale = transform.localScale;
-        rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
         currentState = PlayerState.Idle;
     }
     //=====================================================================
@@ -33,30 +32,14 @@ public class PlayerController : MonoBehaviour
         switch (currentState)
         {
             case PlayerState.Idle:
-                if (IsJumping())
-                {
-                    newState = PlayerState.Jumping;
-                }
-                else if (IsWalking())
+                if (IsWalking())
                 {
                     newState = PlayerState.Walking;
                 }
-
                 break;
 
             case PlayerState.Walking:
-                if (IsJumping())
-                {
-                    newState = PlayerState.Jumping;
-                }
-                else if (!IsWalking())
-                {
-                    newState = PlayerState.Idle;
-                }
-                break;
-
-            case PlayerState.Jumping:
-                if (IsGrounded())
+                if (!IsWalking())
                 {
                     newState = PlayerState.Idle;
                 }
@@ -85,25 +68,25 @@ public class PlayerController : MonoBehaviour
         return Input.GetAxis("Horizontal") != 0;
     }
     //==================================================================================
-    private bool IsJumping()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
-        {
-            transform.DOScale(new Vector3(1, 2, 1), 0.1f)
-                .OnComplete(() =>
-                {
-                    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    // private bool IsJumping()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+    //     {
+    //         transform.DOScale(new Vector3(1, 2, 1), 0.1f)
+    //             .OnComplete(() =>
+    //             {
+    //                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-                    DOVirtual.DelayedCall(0.3f, () =>
-                    {
-                        transform.DOScale(new Vector3(1, 1, 1), 0.1f);
-                    });
-                });
+    //                 DOVirtual.DelayedCall(0.3f, () =>
+    //                 {
+    //                     transform.DOScale(new Vector3(1, 1, 1), 0.1f);
+    //                 });
+    //             });
 
-            return true;
-        }
-        return false;
-    }
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
 
     private bool IsGrounded()
@@ -115,14 +98,17 @@ public class PlayerController : MonoBehaviour
     private void HandleMovement()
     {
         float moveX = Input.GetAxis("Horizontal");
-        Vector3 targetVelocity = new Vector3(moveX * moveSpeed, rb.velocity.y, 0);
+        float moveY = Input.GetAxis("Vertical");
+
+        Vector3 targetVelocity = new Vector3(moveX * moveSpeed, moveY * moveSpeed, 0);
+
         rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, 0.2f);
 
-        if(moveX != 0)
+        if (moveX != 0)
         {
             Move(moveX);
         }
-       
+
     }
 
 
@@ -136,7 +122,6 @@ public class PlayerController : MonoBehaviour
     public enum PlayerState
     {
         Idle,
-        Walking,
-        Jumping
+        Walking
     }
 }
