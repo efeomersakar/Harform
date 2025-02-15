@@ -11,7 +11,9 @@ public class EventManager : MonoBehaviour
     public event Action OnInitial;
     public event Action OnGameContinue;
     public event Action OnPause;
-    public event Action OnEnd;
+
+    public event Action OnLevelFailed;
+    public event Action OnLevelCompleted;
     //=======================================================================
     public delegate void rewardCollected(Vector3 SpawnPosition);
     public delegate void PlayerStateChange(PlayerController.PlayerState newState);
@@ -99,9 +101,12 @@ public class EventManager : MonoBehaviour
             case GameState.PauseLevel:
                 OnPause?.Invoke();
                 break;
-            case GameState.End:
-                OnEnd?.Invoke();
+            case GameState.LevelFailed:
+                OnLevelFailed?.Invoke();
                 SceneManager.LoadScene("DefeatScene");
+                break;
+            case GameState.LevelComplete:
+                OnLevelCompleted?.Invoke();
                 break;
         }
     }
@@ -112,7 +117,8 @@ public class EventManager : MonoBehaviour
         Initial,
         GameContinue,
         PauseLevel,
-        End
+        LevelFailed,
+        LevelComplete
     }
 
 }

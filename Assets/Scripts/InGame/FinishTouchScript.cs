@@ -29,6 +29,7 @@ public class FinishTouchScript : MonoBehaviour
         if (other.gameObject.layer == playerLayer)
         {
             EventManager.Instance.EndGame(true);
+            EventManager.Instance.SetState(EventManager.GameState.LevelComplete);
             GameEnd(true);
 
         }

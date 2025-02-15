@@ -14,14 +14,18 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-   
+
         currentState = PlayerState.Idle;
     }
     //=====================================================================
     void Update()
     {
-        HandleState();
-        HandleMovement();
+        if (EventManager.Instance.currentState == EventManager.GameState.GameContinue)
+        {
+            HandleState();
+            HandleMovement();
+        }
+
     }
 
     //====================================================================
@@ -57,7 +61,6 @@ public class PlayerController : MonoBehaviour
     {
         currentState = newState;
         EventManager.Instance?.PlayerStateChangeEvent(newState);
-
         Debug.Log("Yeni State: " + newState);
     }
 

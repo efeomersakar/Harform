@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -52,22 +53,34 @@ public class GameManager : MonoBehaviour
 
     }
     //=========================================================================
+    void Start()
+    {
+        EventManager.Instance.SetState(EventManager.GameState.Initial);
+        EventManager.Instance.SetState(EventManager.GameState.GameContinue);
+    }
 
     private void Update()
     {
+        if (EventManager.Instance.currentState != EventManager.GameState.GameContinue)
+        {
+            return;  // Eğer oyun devam etmiyorsa, Update'in geri kalanını çalıştırma
+        }
+
         EndGameTime += Time.deltaTime;
+
         if (EndGameTime > 2)
         {
             EventManager.Instance.EndGame(false);
             EndGameTime = 0;
             lives--;
-            
         }
         if (lives <= 0 && !isGameOver)
         {
             isGameOver = true;
-            EventManager.Instance.SetState(EventManager.GameState.End);
-            Debug.Log("END");
+            EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
+            lives = 3;
+            coin = 0;
+
         }
 
     }
@@ -81,10 +94,10 @@ public class GameManager : MonoBehaviour
     //==========================================================================
     public void Endgame(bool isWin)
     {
-        StartCoroutine(EndgameRoutine(isWin));
+        StartCoroutine(EndgameWait(isWin));
     }
     //==========================================================================
-    private IEnumerator EndgameRoutine(bool isWin)
+    private IEnumerator EndgameWait(bool isWin)
     {
         yield return new WaitForSeconds(5f);
 
@@ -99,7 +112,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            EventManager.Instance.SetState(EventManager.GameState.End);
+            EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
             coin = 0;
         }
     }
