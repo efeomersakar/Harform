@@ -3,23 +3,30 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using DG.Tweening;
 
 public class UIController : MonoBehaviour
 {
 
-
+    //Button
     private Button playButton;
     private Button loadButton;
     private Button optionsButton;
     private Button exitButton;
     private Button MainMenuButton;
     private Button TryAgainButton;
+
+    //TEXT
+    [SerializeField] private TextMeshProUGUI YouLoseText;
+
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private TextMeshProUGUI levelText;
 
     [SerializeField] private TextMeshProUGUI LivesText;
     [SerializeField] private TextMeshProUGUI EndGameText;
     [SerializeField] private TextMeshProUGUI ScoreText;
+    //===============================================================
+
     public static UIController Instance
     {
         get;
@@ -76,6 +83,7 @@ public class UIController : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name == "DefeatScene")
         {
+            YouLoseText = GameObject.Find("YouLoseText")?.GetComponent<TextMeshProUGUI>();
             TryAgainButton = GameObject.Find("TryAgainButton")?.GetComponent<Button>();
             MainMenuButton = GameObject.Find("MainMenuButton")?.GetComponent<Button>();
             exitButton = GameObject.Find("ExitButton")?.GetComponent<Button>();
@@ -83,13 +91,14 @@ public class UIController : MonoBehaviour
             if (TryAgainButton) TryAgainButton.onClick.AddListener(TryAgain);
             if (MainMenuButton) MainMenuButton.onClick.AddListener(GoToMainMenu);
             if (exitButton) exitButton.onClick.AddListener(ExitGame);
+            YouLoseTextAnimation();
         }
     }
     //===============================================================
     private void PlayGame()
     {
         Debug.Log("Play Button Clicked!");
-        SceneManager.LoadScene("Level1"); 
+        SceneManager.LoadScene("Level1");
     }
     //===============================================================
     private void LoadGame()
@@ -110,12 +119,12 @@ public class UIController : MonoBehaviour
     // Fonksiyonlar
     private void TryAgain()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void GoToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu"); 
+        SceneManager.LoadScene("MainMenu");
     }
     //==================================================================================
 
@@ -142,6 +151,21 @@ public class UIController : MonoBehaviour
     private void LivesTextEvent(bool iswin, int score)
     {
         LivesText.text = "LIVES: " + GameManager.Instance.lives;
+    }
+    //==================================================================================
+    private void YouLoseTextAnimation()
+    {
+        if (YouLoseText != null)
+        {
+           
+            YouLoseText.transform.DOScale(Vector3.one * 1.5f, 0.5f) 
+                .SetLoops(-1, LoopType.Yoyo) //sonsuz döngü ekliyor
+                .SetEase(Ease.InOutSine); 
+
+            YouLoseText.DOColor(new Color(1f, 0f, 0f), 0.5f)
+                .SetLoops(-1, LoopType.Yoyo) 
+                .SetEase(Ease.Linear);
+        }
     }
 
 }
