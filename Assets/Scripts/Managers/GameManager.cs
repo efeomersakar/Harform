@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
 {
     public int level = 1;
     public int coin = 0;
-    public int score = 0;
     public float EndGameTime = 0;
     public int lives = 3;
     private bool isGameOver = false;
@@ -68,6 +67,7 @@ public class GameManager : MonoBehaviour
             EndGameTime = 0;
             lives--;
         }
+
         if (lives <= 0 && !isGameOver)
         {
             isGameOver = true;

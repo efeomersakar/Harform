@@ -14,6 +14,7 @@ public class EventManager : MonoBehaviour
 
     public event Action OnLevelFailed;
     public event Action OnLevelCompleted;
+    public event Action OnEnemyAttacked;
     //=======================================================================
     public delegate void rewardCollected(Vector3 SpawnPosition);
     public delegate void PlayerStateChange(PlayerController.PlayerState newState);
@@ -72,10 +73,13 @@ public class EventManager : MonoBehaviour
 
     public void EndGame(bool isWin, int lives)
     {
-        onEndgameController?.Invoke(isWin,lives);
+        onEndgameController?.Invoke(isWin, lives);
     }
     //==================================================================================
-
+    public void EnemyAttacked()
+    {
+        OnEnemyAttacked?.Invoke();
+    }
     //==================================================================================
     public void SetState(GameState newState)
     {
@@ -114,5 +118,4 @@ public class EventManager : MonoBehaviour
         LevelFailed,
         LevelComplete
     }
-
 }

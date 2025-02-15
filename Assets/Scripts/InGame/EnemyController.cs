@@ -5,9 +5,8 @@ using DG.Tweening;
 
 public class EnemyController : MonoBehaviour
 {
-    public float moveDistance = 5f; // Sağ ve sol hareket mesafesi
-    public float moveDuration = 2f; // Bir yöndeki hareket süresi
-
+    public float moveDistance = 5f; 
+    public float moveDuration = 2f;  
     private void Start()
     {
         MoveAI();
@@ -23,6 +22,7 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+            EventManager.Instance.EnemyAttacked();
             Debug.Log("Enemy, Player'a çarptı!");
             GameManager.Instance.lives--;
             

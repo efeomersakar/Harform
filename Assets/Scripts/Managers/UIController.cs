@@ -17,6 +17,7 @@ public class UIController : MonoBehaviour
 
     //TEXT
     [SerializeField] private TextMeshProUGUI YouLoseText;
+    [SerializeField] private TextMeshProUGUI TimerText;
 
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI LivesText;
@@ -28,6 +29,8 @@ public class UIController : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(this);
+        
+
     }
     private void OnEnable()
     {
@@ -35,7 +38,6 @@ public class UIController : MonoBehaviour
         if (EventManager.Instance != null)
         {
             EventManager.Instance.onCoinCollect += coinTextEvent;
-            EventManager.Instance.onEndgameController += LivesandLevelText;
         }
     }
 
@@ -45,7 +47,6 @@ public class UIController : MonoBehaviour
         if (EventManager.Instance != null)
         {
             EventManager.Instance.onCoinCollect -= coinTextEvent;
-            EventManager.Instance.onEndgameController -= LivesandLevelText;
         }
     }
 
@@ -55,6 +56,10 @@ public class UIController : MonoBehaviour
         {
             EventManager.Instance.SetState(EventManager.GameState.GameContinue);
         }
+    }
+    void Update()
+    {
+        maintext();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -95,20 +100,8 @@ public class UIController : MonoBehaviour
             CoinText = GameObject.Find("CoinText")?.GetComponent<TextMeshProUGUI>();
             levelText = GameObject.Find("LevelText")?.GetComponent<TextMeshProUGUI>();
             LivesText = GameObject.Find("Lives")?.GetComponent<TextMeshProUGUI>();
-        }
-        else
-        {
+            TimerText = GameObject.Find("Timer")?.GetComponent<TextMeshProUGUI>();
 
-            playButton = null;
-            loadButton = null;
-            optionsButton = null;
-            exitButton = null;
-            YouLoseText = null;
-            TryAgainButton = null;
-            MainMenuButton = null;
-            CoinText = null;
-            levelText = null;
-            LivesText = null;
         }
     }
 
@@ -169,13 +162,11 @@ public class UIController : MonoBehaviour
         }
     }
 
-    private void LivesandLevelText(bool iswin, int lives)
+    private void maintext()
     {
-        if (levelText != null)
-        {
-            levelText.text = "LEVEL " + GameManager.Instance.level;
-            LivesText.text = "LIVES: " + GameManager.Instance.lives;
-        }
+        levelText.text = "LEVEL " + GameManager.Instance.level;
+        LivesText.text = "LIVES: " + GameManager.Instance.lives;
+        TimerText.text = "TIMER: " + GameManager.Instance.EndGameTime;
     }
 
     private void YouLoseTextAnimation()

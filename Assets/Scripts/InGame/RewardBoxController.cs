@@ -52,8 +52,6 @@ public class RewardBoxController : MonoBehaviour
                     transform.DOMoveY(transform.position.y - jumpHeight, jumpDuration)
                         .SetEase(Ease.OutCubic);
                 });
-
-
         }
     }
     private void GiveorDestroy()
