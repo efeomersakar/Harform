@@ -12,6 +12,8 @@ public class UIController : MonoBehaviour
     private Button loadButton;
     private Button optionsButton;
     private Button exitButton;
+    private Button MainMenuButton;
+    private Button TryAgainButton;
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private TextMeshProUGUI levelText;
 
@@ -72,13 +74,22 @@ public class UIController : MonoBehaviour
             if (optionsButton) optionsButton.onClick.AddListener(OpenOptions);
             if (exitButton) exitButton.onClick.AddListener(ExitGame);
         }
+        else if (SceneManager.GetActiveScene().name == "DefeatScene")
+        {
+            TryAgainButton = GameObject.Find("TryAgainButton")?.GetComponent<Button>();
+            MainMenuButton = GameObject.Find("MainMenuButton")?.GetComponent<Button>();
+            exitButton = GameObject.Find("ExitButton")?.GetComponent<Button>();
 
+            if (TryAgainButton) TryAgainButton.onClick.AddListener(TryAgain);
+            if (MainMenuButton) MainMenuButton.onClick.AddListener(GoToMainMenu);
+            if (exitButton) exitButton.onClick.AddListener(ExitGame);
+        }
     }
     //===============================================================
     private void PlayGame()
     {
         Debug.Log("Play Button Clicked!");
-        SceneManager.LoadScene("Level1"); // Oyun sahnesinin adını güncelle
+        SceneManager.LoadScene("Level1"); 
     }
     //===============================================================
     private void LoadGame()
@@ -96,6 +107,20 @@ public class UIController : MonoBehaviour
         Debug.Log("Exit Button Clicked!");
         Application.Quit();
     }
+    // Fonksiyonlar
+    private void TryAgain()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+    }
+
+    private void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu"); 
+    }
+    //==================================================================================
+
+
+    //TEXT'LER
     //===============================================================
     private void coinTextEvent(Vector3 PlayerPosition)
     {

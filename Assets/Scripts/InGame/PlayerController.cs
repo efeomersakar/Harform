@@ -88,11 +88,10 @@ public class PlayerController : MonoBehaviour
     //     return false;
     // }
 
-
-    private bool IsGrounded()
-    {
-        return Physics.Raycast(transform.position, Vector3.down, 1.1f);
-    }
+    // private bool IsGrounded()
+    // {
+    //     return Physics.Raycast(transform.position, Vector3.down, 1.1f);
+    // }
 
 
     private void HandleMovement()
