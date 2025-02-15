@@ -29,7 +29,7 @@ public class UIController : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(this);
-        
+
 
     }
     private void OnEnable()
@@ -103,6 +103,13 @@ public class UIController : MonoBehaviour
             TimerText = GameObject.Find("Timer")?.GetComponent<TextMeshProUGUI>();
 
         }
+        else
+        {
+            if (CoinText != null) CoinText.gameObject.SetActive(false);
+            if (levelText != null) levelText.gameObject.SetActive(false);
+            if (LivesText != null) LivesText.gameObject.SetActive(false);
+            if (TimerText != null) TimerText.gameObject.SetActive(false);
+        }
     }
 
     private void PlayGame()
@@ -133,6 +140,7 @@ public class UIController : MonoBehaviour
         {
             GameManager.Instance.lives = 3;
             GameManager.Instance.coin = 0;
+            Time.timeScale = 1f;
             SceneManager.LoadScene("Level" + GameManager.Instance.level);
             EventManager.Instance.SetState(EventManager.GameState.GameContinue);
 

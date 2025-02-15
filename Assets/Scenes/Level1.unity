@@ -1649,6 +1649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   YouLoseText: {fileID: 0}
+  TimerText: {fileID: 0}
   levelText: {fileID: 0}
   LivesText: {fileID: 0}
   CoinText: {fileID: 0}
@@ -1846,7 +1847,7 @@ Transform:
   m_GameObject: {fileID: 1185885423}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.29, y: -23.7, z: -10}
+  m_LocalPosition: {x: -6.49, y: -23.7, z: -10}
   m_LocalScale: {x: 1, y: 2.66, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2771,6 +2772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  PlayerCurrentState: 0
 --- !u!1 &2627808154491194000
 GameObject:
   m_ObjectHideFlags: 0
@@ -2802,7 +2804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 1
   coin: 0
-  EndGameTime: -108.4
+  EndGameTime: 0
   lives: 3
 --- !u!1 &3524927325624022991
 GameObject:

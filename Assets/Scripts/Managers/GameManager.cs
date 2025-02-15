@@ -67,16 +67,29 @@ public class GameManager : MonoBehaviour
 
         EndGameTime += Time.deltaTime;
 
-        if (EndGameTime > 2 || isEnemyHit)
+        if (EndGameTime > 200 || isEnemyHit)
         {
             lives--;
             EndGameTime = 0;
             isEnemyHit = false;
+            EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerStartPosition);
 
             if (lives <= 0)
             {
+                EndGameTime = 0;
                 EventManager.Instance.EndGame(false, lives);
                 EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
+
+                if (EventManager.Instance.currentState == EventManager.GameState.LevelFailed)
+                {
+                    Time.timeScale = 0f;
+                    EndGameTime = 0;
+                }
+                else
+                {
+                    Time.timeScale = 1f;
+                }
+
             }
         }
 
@@ -95,12 +108,6 @@ public class GameManager : MonoBehaviour
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene(currentSceneIndex + 1);
             EventManager.Instance.SetState(EventManager.GameState.LevelComplete);
-        }
-        else
-        {
-            coin = 0;
-            lives = 3;
-            EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
         }
 
     }

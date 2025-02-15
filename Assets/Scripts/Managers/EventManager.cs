@@ -11,26 +11,27 @@ public class EventManager : MonoBehaviour
     public event Action OnInitial;
     public event Action OnGameContinue;
     public event Action OnPause;
-
+    public event Action OnPLayerStateChange;
     public event Action OnLevelFailed;
     public event Action OnLevelCompleted;
     public event Action OnEnemyAttacked;
+    public event Action OnPlayerStartPosition;
+    public event Action OnPlayerGotDamage;
     //=======================================================================
     public delegate void rewardCollected(Vector3 SpawnPosition);
-    public delegate void PlayerStateChange(PlayerController.PlayerState newState);
     public delegate void coinCollected(Vector3 PlayerPosition);
     public delegate void EndGameController(bool isWin, int lives);
-
+    public delegate void PlayerStateChange(PlayerState newState);
 
     //==================================================================================
     public event rewardCollected onRewardBoxTouched;
-    public event PlayerStateChange onPlayerStateChange;
-
     public event coinCollected onCoinCollect;
     public event EndGameController onEndgameController;
+    public event PlayerStateChange onPlayerStateChange;
 
     //==================================================================================
     public GameState currentState;
+    public PlayerState PlayerCurrentState;
     public static EventManager Instance
     {
         get;
@@ -56,12 +57,6 @@ public class EventManager : MonoBehaviour
     public void RewardBoxTrigger(Vector3 spawnPosition)
     {
         onRewardBoxTouched?.Invoke(spawnPosition);
-    }
-    //==================================================================================
-
-    public void PlayerStateChangeEvent(PlayerController.PlayerState newState)
-    {
-        onPlayerStateChange?.Invoke(newState);
     }
     //==================================================================================
 
@@ -109,6 +104,26 @@ public class EventManager : MonoBehaviour
         }
     }
     //==================================================================================
+    public void SetPlayerState(PlayerState newPlayerState)
+    {
+        PlayerCurrentState = newPlayerState;
+        onPlayerStateChange?.Invoke(PlayerCurrentState);
+
+
+        switch (PlayerCurrentState)
+        {
+
+            case PlayerState.PlayerStartPosition:
+                OnPlayerStartPosition?.Invoke();
+                break;
+            case PlayerState.PlayerGotDamage:
+                OnPlayerGotDamage?.Invoke();
+                break;
+
+        }
+    }
+
+    //==================================================================================
     public enum GameState
     {
         GameLoading,
@@ -117,5 +132,11 @@ public class EventManager : MonoBehaviour
         PauseLevel,
         LevelFailed,
         LevelComplete
+    }
+    public enum PlayerState
+    {
+        PlayerStartPosition,
+        PlayerGotDamage
+
     }
 }
