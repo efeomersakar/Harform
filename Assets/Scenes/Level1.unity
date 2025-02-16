@@ -2737,7 +2737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CoinPrefab: {fileID: 3618462741577199006, guid: e1c4ed2fc5d632b4ea5c708e15f91980, type: 3}
-  poolSize: 1
+  poolSize: 0
 --- !u!65 &1902640684854971540
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2804,7 +2804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 1
   coin: 0
-  EndGameTime: 0
+  EndGameTime: 30
   lives: 3
 --- !u!1 &3524927325624022991
 GameObject:

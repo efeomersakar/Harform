@@ -20,65 +20,89 @@ public class RewardBoxController : MonoBehaviour
         PlayerLayer = LayerMask.NameToLayer(stagPlayer);
     }
 
-
     public void OnCollisionEnter(Collision other)
     {
+        if (other == null || other.gameObject == null || transform == null) return; // Null kontrolü
+
         if (other.gameObject.layer.Equals(PlayerLayer) && !isRewardGiven)
         {
-            Vector3 collisionNormal = other.contacts[0].normal;
-            if (collisionNormal.y > 0.5f)
+            if (other.contacts.Length > 0) 
             {
-                isRewardGiven = true;
-                Vector3 targetPosition = transform.position + Vector3.up * jumpHeight;
-                transform.DOMoveY(targetPosition.y, jumpDuration)
-                    .SetEase(Ease.OutQuad)
-                    .OnComplete(() =>
+                Vector3 collisionNormal = other.contacts[0].normal;
+                if (collisionNormal.y > 0.5f)
+                {
+                    isRewardGiven = true;
+                    if (transform != null)
                     {
-                        transform.DOMoveY(transform.position.y - jumpHeight, jumpDuration)
-                            .SetEase(Ease.OutCubic);
-                    });
-                GiveorDestroy();
+                        Vector3 targetPosition = transform.position + Vector3.up * jumpHeight;
+                        transform.DOMoveY(targetPosition.y, jumpDuration)
+                            .SetEase(Ease.OutQuad)
+                            .OnComplete(() =>
+                            {
+                                if (transform != null)
+                                {
+                                    transform.DOMoveY(transform.position.y - jumpHeight, jumpDuration)
+                                        .SetEase(Ease.OutCubic);
+                                }
+                            });
 
+                        if (this != null) // Eğer obje hâlâ sahnedeyse
+                        {
+                            GiveorDestroy();
+                        }
+                    }
+                }
             }
         }
         else
         {
             isRewardGiven = true;
-            Vector3 targetPosition = transform.position + Vector3.up * jumpHeight;
-            transform.DOMoveY(targetPosition.y, jumpDuration)
-                .SetEase(Ease.OutQuad)
-                .OnComplete(() =>
-                {
-                    transform.DOMoveY(transform.position.y - jumpHeight, jumpDuration)
-                        .SetEase(Ease.OutCubic);
-                });
+            if (transform != null)
+            {
+                Vector3 targetPosition = transform.position + Vector3.up * jumpHeight;
+                transform.DOMoveY(targetPosition.y, jumpDuration)
+                    .SetEase(Ease.OutQuad)
+                    .OnComplete(() =>
+                    {
+                        if (transform != null)
+                        {
+                            transform.DOMoveY(transform.position.y - jumpHeight, jumpDuration)
+                                .SetEase(Ease.OutCubic);
+                        }
+                    });
+            }
         }
     }
+
     private void GiveorDestroy()
     {
         int randomValue = UnityEngine.Random.Range(0, 100);
 
-        if (randomValue < 70)
+        if (EventManager.Instance != null && transform != null)
         {
-            EventManager.Instance.RewardBoxTrigger(transform.position);
+            if (randomValue < 70)
+            {
+                EventManager.Instance.RewardBoxTrigger(transform.position);
+            }
+            else
+            {
+                DestroyBox();
+            }
         }
-        else
-        {
-            DestroyBox();
-        }
+
     }
     private void DestroyBox()
     {
-        
+
         Renderer renderer = GetComponent<Renderer>();
         if (renderer != null)
         {
-          
+
             renderer.material.DOColor(Color.red, 0.5f);
         }
 
-        transform.DOScale(Vector3.zero, 0.5f) 
-            .SetEase(Ease.InBack) 
+        transform.DOScale(Vector3.zero, 0.5f)
+            .SetEase(Ease.InBack)
             .OnComplete(() =>
             {
                 Destroy(gameObject);

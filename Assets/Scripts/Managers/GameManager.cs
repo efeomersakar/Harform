@@ -5,12 +5,13 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
     public int level = 1;
     public int coin = 0;
-    public float EndGameTime = 0f;
+    public float EndGameTime = 30f;
     public int lives = 3;
     private bool isEnemyHit = false;
     int PlayerLayer;
@@ -66,20 +67,24 @@ public class GameManager : MonoBehaviour
     {
         if (EventManager.Instance.currentState == EventManager.GameState.GameContinue)
         {
-            EndGameTime += Time.deltaTime;
+            EndGameTime -= Time.deltaTime;
         }
 
-        if (EndGameTime > 200 || isEnemyHit)
+        if (EndGameTime < 0 || isEnemyHit)
         {
             lives--;
-            EndGameTime = 0;
+            EndGameTime = 30f;
             isEnemyHit = false;
             EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerStartPosition);
 
             if (lives <= 0)
             {
                 EventManager.Instance.EndGame(false, lives);
-                EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
+                EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotDamage);
+                DOVirtual.DelayedCall(2.2f, () =>
+    {
+        EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
+    });
 
             }
         }

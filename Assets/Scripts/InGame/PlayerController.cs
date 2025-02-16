@@ -15,13 +15,14 @@ public class PlayerController : MonoBehaviour
     void OnEnable()
     {
         EventManager.Instance.OnPlayerStartPosition += PlayerStartPosition;
+        EventManager.Instance.OnPlayerGotDamage += PlayDeathAnimation;
 
     }
 
     void OnDisable()
     {
         EventManager.Instance.OnPlayerStartPosition -= PlayerStartPosition;
-
+        EventManager.Instance.OnPlayerGotDamage -= PlayDeathAnimation;
     }
 
     void Start()
@@ -54,6 +55,22 @@ public class PlayerController : MonoBehaviour
     private void PlayerStartPosition()
     {
         transform.position = startPosition;
+    }
+    private void PlayDeathAnimation()
+    {
+        transform.DOScale(2f, 1f)
+      .OnStart(() =>
+      {
+          GetComponent<Renderer>().material.DOColor(Color.red, 0.3f);
+      })
+      .OnComplete(() =>
+      {
+          transform.DOScale(0f, 0.2f)
+              .OnComplete(() =>
+              {
+                  Destroy(gameObject);
+              });
+      });
     }
 
 }

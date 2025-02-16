@@ -105,10 +105,26 @@ public class UIController : MonoBehaviour
         }
         else
         {
-            if (CoinText != null) CoinText.gameObject.SetActive(false);
-            if (levelText != null) levelText.gameObject.SetActive(false);
-            if (LivesText != null) LivesText.gameObject.SetActive(false);
-            if (TimerText != null) TimerText.gameObject.SetActive(false);
+            if (CoinText != null)
+            {
+                CoinText.gameObject.SetActive(false);
+
+            }
+            if (levelText != null)
+            {
+                levelText.gameObject.SetActive(false);
+
+            }
+            if (LivesText != null)
+            {
+                LivesText.gameObject.SetActive(false);
+
+            }
+            if (TimerText != null)
+            {
+                TimerText.gameObject.SetActive(false);
+
+            }
         }
     }
 

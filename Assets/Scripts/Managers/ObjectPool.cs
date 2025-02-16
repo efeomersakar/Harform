@@ -8,7 +8,6 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] private GameObject CoinPrefab;
     [SerializeField] private int poolSize=1;
     private Queue<GameObject> coinQueue;
-     private Queue<GameObject> boxQueue;
 
     public static ObjectPool Instance
     {
