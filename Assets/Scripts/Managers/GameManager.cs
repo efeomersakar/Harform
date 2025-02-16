@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 {
     public int level = 1;
     public int coin = 0;
-    public float EndGameTime = 0;
+    public float EndGameTime = 0f;
     public int lives = 3;
     private bool isEnemyHit = false;
     int PlayerLayer;
@@ -64,8 +64,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
-        EndGameTime += Time.deltaTime;
+        if (EventManager.Instance.currentState == EventManager.GameState.GameContinue)
+        {
+            EndGameTime += Time.deltaTime;
+        }
 
         if (EndGameTime > 200 || isEnemyHit)
         {
@@ -76,19 +78,8 @@ public class GameManager : MonoBehaviour
 
             if (lives <= 0)
             {
-                EndGameTime = 0;
                 EventManager.Instance.EndGame(false, lives);
                 EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
-
-                if (EventManager.Instance.currentState == EventManager.GameState.LevelFailed)
-                {
-                    Time.timeScale = 0f;
-                    EndGameTime = 0;
-                }
-                else
-                {
-                    Time.timeScale = 1f;
-                }
 
             }
         }

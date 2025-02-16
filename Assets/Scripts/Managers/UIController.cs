@@ -174,7 +174,7 @@ public class UIController : MonoBehaviour
     {
         levelText.text = "LEVEL " + GameManager.Instance.level;
         LivesText.text = "LIVES: " + GameManager.Instance.lives;
-        TimerText.text = "TIMER: " + GameManager.Instance.EndGameTime;
+        TimerText.text = "TIMER: " + Mathf.FloorToInt(GameManager.Instance.EndGameTime);
     }
 
     private void YouLoseTextAnimation()
