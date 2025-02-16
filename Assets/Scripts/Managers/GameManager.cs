@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
             {
                 EventManager.Instance.EndGame(false, lives);
                 EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotDamage);
-                DOVirtual.DelayedCall(2.2f, () =>
+                DOVirtual.DelayedCall(2f, () =>
     {
         EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
     });
