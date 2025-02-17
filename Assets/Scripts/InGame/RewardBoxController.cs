@@ -80,7 +80,7 @@ public class RewardBoxController : MonoBehaviour
 
         if (EventManager.Instance != null && transform != null)
         {
-            if (randomValue < 70)
+            if (randomValue < 33)
             {
                 EventManager.Instance.RewardBoxTrigger(transform.position);
             }
