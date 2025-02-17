@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public int coin = 0;
     public float EndGameTime = 30f;
     public int lives = 3;
+    private int minimumCoin = 1;
     private bool isEnemyHit = false;
     int PlayerLayer;
     const string stagPlayer = "Player";
@@ -40,7 +41,7 @@ public class GameManager : MonoBehaviour
     {
         EventManager.Instance.onCoinCollect += coinCollected;
         EventManager.Instance.OnEnemyAttacked += EnemyHit;
-        EventManager.Instance.onEndgameController += Endgame;
+        EventManager.Instance.onEndgameController += LevelComplete;
 
 
     }
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour
     {
         EventManager.Instance.onCoinCollect -= coinCollected;
         EventManager.Instance.OnEnemyAttacked -= EnemyHit;
-        EventManager.Instance.onEndgameController -= Endgame;
+        EventManager.Instance.onEndgameController -= LevelComplete;
 
 
     }
@@ -88,23 +89,29 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    //==========================================================================
+    public void LevelComplete(bool isWin, int coin)
+    {
+        if (isWin && coin >= minimumCoin)
+        {
+            level++;
+            minimumCoin = +2;
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentSceneIndex + 1);
+            //EventManager.Instance.SetState(EventManager.GameState.LevelComplete);
+        }
+        else
+        {
+            Debug.Log("Yetersiz Bakiye");
+        }
+
+    }
     //====================================================================
     private void coinCollected(Vector3 playerPosition)
     {
         coin++;
     }
-    //==========================================================================
-    public void Endgame(bool isWin, int lives)
-    {
-        if (isWin)
-        {
-            level++;
-            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            SceneManager.LoadScene(currentSceneIndex + 1);
-            EventManager.Instance.SetState(EventManager.GameState.LevelComplete);
-        }
 
-    }
     //==========================================================================
     private void EnemyHit()
     {

@@ -22,7 +22,7 @@ public class EventManager : MonoBehaviour
     //=======================================================================
     public delegate void rewardCollected(Vector3 SpawnPosition);
     public delegate void coinCollected(Vector3 PlayerPosition);
-    public delegate void EndGameController(bool isWin, int lives);
+    public delegate void EndGameController(bool isWin, int coin);
     public delegate void PlayerStateChange(PlayerState newState);
 
     //==================================================================================
@@ -68,9 +68,9 @@ public class EventManager : MonoBehaviour
     }
     //==================================================================================
 
-    public void EndGame(bool isWin, int lives)
+    public void EndGame(bool isWin, int coin)
     {
-        onEndgameController?.Invoke(isWin, lives);
+        onEndgameController?.Invoke(isWin, coin);
     }
     //==================================================================================
     public void EnemyAttacked()

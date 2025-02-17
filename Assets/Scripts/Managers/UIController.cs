@@ -31,6 +31,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ScoreText;
     //PANEL
     [SerializeField] private GameObject SettingsPanel;
+    [SerializeField] private GameObject LevelCompletePanel;
 
     public static UIController Instance { get; private set; }
 
@@ -45,7 +46,7 @@ public class UIController : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 
@@ -197,6 +198,18 @@ public class UIController : MonoBehaviour
             {
                 ContinueButton.onClick.AddListener(PauseButtonClicked);
             }
+            // LevelCompletePanel = GameObject.Find("LevelCompletePanel");
+
+            // if (EventManager.Instance.currentState == EventManager.GameState.LevelComplete)
+            // {
+            //     LevelCompletePanel.SetActive(true);
+            // }
+            //  else
+            // {
+            //      LevelCompletePanel.SetActive(false);
+            // }
+            
+
         }
 
     }

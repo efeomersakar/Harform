@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class EnemyController : MonoBehaviour
+public class Enemy2Controller : MonoBehaviour
 {
-    public float moveDistance = 5f;
+    public float moveDistance = 2f;
     public float moveDuration = 1f;
+
     public float speed = 0.5f;
     private void Start()
     {
@@ -15,17 +16,17 @@ public class EnemyController : MonoBehaviour
 
     private void MoveEnemy()
     {
+        float startY = transform.position.y;
 
-        transform.DOMoveX(transform.position.x + moveDistance, moveDuration*speed)
-                   .SetEase(Ease.InOutSine)
-                   .SetLoops(-1, LoopType.Yoyo);
-
+        transform.DOMoveY(startY + moveDistance, moveDuration)
+            .SetLoops(-1, LoopType.Yoyo) 
+            .SetEase(Ease.InOutSine); 
     }
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            EventManager.Instance.EnemyAttacked();         
+            EventManager.Instance.EnemyAttacked();
         }
     }
 }
