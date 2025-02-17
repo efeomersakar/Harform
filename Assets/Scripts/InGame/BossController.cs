@@ -19,7 +19,6 @@ public class BossController : MonoBehaviour
         float startY = transform.position.y;
         float startX = transform.position.x;
 
-        // First, move on Y-axis
         transform.DOMoveY(startY + moveDistance, moveDuration * speed)
             .SetLoops(2, LoopType.Yoyo)
             .SetEase(Ease.InOutSine)

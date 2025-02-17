@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     //=========================================================================
     void Start()
     {
-        
+
         PlayerLayer = LayerMask.NameToLayer(stagPlayer);
         EventManager.Instance.SetState(EventManager.GameState.Initial);
     }
@@ -96,9 +96,15 @@ public class GameManager : MonoBehaviour
         {
             level++;
             minimumCoin++;
-            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            SceneManager.LoadScene(currentSceneIndex + 1);
-            //EventManager.Instance.SetState(EventManager.GameState.LevelComplete);
+            EventManager.Instance.SetState(EventManager.GameState.LevelComplete);
+            DOVirtual.DelayedCall(1.2f, () =>
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex + 1);
+    });
+
+
+
         }
         else
         {

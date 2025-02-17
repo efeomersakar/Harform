@@ -54,6 +54,7 @@ public class SoundManager : MonoBehaviour
             audioSource.Stop();
             AudioSource.PlayClipAtPoint(DeathSound, transform.position);
         }
+   
     }
     //==================================================================================
 
@@ -61,6 +62,7 @@ public class SoundManager : MonoBehaviour
     {
         if (LevelCompletedSound != null)
         {
+            audioSource.Stop();
             AudioSource.PlayClipAtPoint(LevelCompletedSound, transform.position);
         }
     }
