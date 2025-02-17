@@ -6,8 +6,11 @@ using DG.Tweening;
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] private GameObject CoinPrefab;
-    [SerializeField] private int poolSize=1;
+    [SerializeField] private GameObject RewardBoxPrefab;
+    [SerializeField] private int poolSize = 1;
+
     private Queue<GameObject> coinQueue;
+    private Queue<GameObject> rewardBoxQueue;
 
     public static ObjectPool Instance
     {
@@ -20,13 +23,14 @@ public class ObjectPool : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
             return;
         }
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        //===================================================
         coinQueue = new Queue<GameObject>();
         for (int i = 0; i < poolSize; i++)
         {
@@ -34,19 +38,28 @@ public class ObjectPool : MonoBehaviour
             coin.SetActive(false);
             coinQueue.Enqueue(coin);
         }
+
+        //===================================================
+        rewardBoxQueue = new Queue<GameObject>();
+
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject rewardBox = Instantiate(RewardBoxPrefab);
+            rewardBox.SetActive(true);
+            rewardBoxQueue.Enqueue(rewardBox);
+        }
+
+
     }
+
     private void OnEnable()
     {
-
         EventManager.Instance.onRewardBoxTouched += SpawnCoin;
-
     }
 
     private void OnDisable()
     {
-
         EventManager.Instance.onRewardBoxTouched -= SpawnCoin;
-
     }
 
     public void SpawnCoin(Vector3 spawnPosition)
@@ -79,14 +92,21 @@ public class ObjectPool : MonoBehaviour
                      coin.transform.DOMove(finalPosition, 0.4f)
                      .SetEase(Ease.OutQuad);
                  });
-
             });
     }
+
 
     public void ReturnCoinToPool(GameObject coin)
     {
         coin.SetActive(false);
         coinQueue.Enqueue(coin);
     }
-    
+
+    public void ReturnRewardBoxToPool(GameObject rewardBox)
+    {
+        rewardBox.SetActive(false);
+        rewardBoxQueue.Enqueue(rewardBox);
+    }
+
+
 }

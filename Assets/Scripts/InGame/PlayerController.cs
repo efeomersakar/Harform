@@ -61,11 +61,11 @@ public class PlayerController : MonoBehaviour
         transform.DOScale(2f, 1f)
       .OnStart(() =>
       {
-          GetComponent<Renderer>().material.DOColor(Color.red, 0.3f);
+          GetComponent<Renderer>().material.DOColor(Color.red, 0.1f);
       })
       .OnComplete(() =>
       {
-          transform.DOScale(0f, 0.2f)
+          transform.DOScale(0f, 0.1f)
               .OnComplete(() =>
               {
                   Destroy(gameObject);

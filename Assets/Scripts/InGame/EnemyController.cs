@@ -9,10 +9,10 @@ public class EnemyController : MonoBehaviour
     public float moveDuration = 2f;  
     private void Start()
     {
-        MoveAI();
+        MoveEnemy();
     }
 
-    private void MoveAI()
+    private void MoveEnemy()
     {
         transform.DOMoveX(transform.position.x + moveDistance, moveDuration)
             .SetEase(Ease.InOutSine)
@@ -23,7 +23,7 @@ public class EnemyController : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             EventManager.Instance.EnemyAttacked();
-            Debug.Log("Enemy, Player'a çarptı!");            
+            //Debug.Log("Enemy, Player'a çarptı!");            
         }
     }
 }

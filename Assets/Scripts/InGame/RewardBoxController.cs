@@ -22,7 +22,7 @@ public class RewardBoxController : MonoBehaviour
 
     public void OnCollisionEnter(Collision other)
     {
-        if (other == null || other.gameObject == null || transform == null) return; // Null kontrolü
+        if (other == null || other.gameObject == null || transform == null) return; 
 
         if (other.gameObject.layer.Equals(PlayerLayer) && !isRewardGiven)
         {
@@ -105,7 +105,7 @@ public class RewardBoxController : MonoBehaviour
             .SetEase(Ease.InBack)
             .OnComplete(() =>
             {
-                Destroy(gameObject);
+                ObjectPool.Instance.ReturnRewardBoxToPool(this.gameObject);
             });
     }
 }

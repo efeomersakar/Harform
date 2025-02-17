@@ -4,8 +4,23 @@ using UnityEngine;
 
 public class Managers : MonoBehaviour
 {
+    public static Managers Instance
+
+    {
+        get;
+        private set;
+
+    }
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

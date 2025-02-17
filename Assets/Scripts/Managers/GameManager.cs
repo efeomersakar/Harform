@@ -57,8 +57,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         PlayerLayer = LayerMask.NameToLayer(stagPlayer);
-
-
         EventManager.Instance.SetState(EventManager.GameState.Initial);
         EventManager.Instance.SetState(EventManager.GameState.GameContinue);
     }
@@ -81,7 +79,7 @@ public class GameManager : MonoBehaviour
             {
                 EventManager.Instance.EndGame(false, lives);
                 EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotDamage);
-                DOVirtual.DelayedCall(2f, () =>
+                DOVirtual.DelayedCall(1.2f, () =>
     {
         EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
     });
