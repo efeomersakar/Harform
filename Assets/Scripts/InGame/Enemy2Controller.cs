@@ -18,7 +18,7 @@ public class Enemy2Controller : MonoBehaviour
     {
         float startY = transform.position.y;
 
-        transform.DOMoveY(startY + moveDistance, moveDuration)
+        transform.DOMoveY(startY + moveDistance, moveDuration*speed)
             .SetLoops(-1, LoopType.Yoyo) 
             .SetEase(Ease.InOutSine); 
     }

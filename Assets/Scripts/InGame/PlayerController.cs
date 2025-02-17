@@ -6,7 +6,7 @@ using System.Numerics;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private float moveSpeed = 5f;
     private Rigidbody rb;
     private UnityEngine.Vector3 startPosition;
 
@@ -14,15 +14,15 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
-        EventManager.Instance.OnPlayerStartPosition += PlayerStartPosition;
-        EventManager.Instance.OnPlayerGotDamage += PlayDeathAnimation;
+        EventManager.Instance.OnPlayerGotDamaged += PlayerStartPosition;
+        EventManager.Instance.OnPlayerKilled += PlayDeathAnimation;
 
     }
 
     void OnDisable()
     {
-        EventManager.Instance.OnPlayerStartPosition -= PlayerStartPosition;
-        EventManager.Instance.OnPlayerGotDamage -= PlayDeathAnimation;
+        EventManager.Instance.OnPlayerGotDamaged -= PlayerStartPosition;
+        EventManager.Instance.OnPlayerKilled -= PlayDeathAnimation;
     }
 
     void Start()
@@ -72,5 +72,6 @@ public class PlayerController : MonoBehaviour
               });
       });
     }
+    
 
 }

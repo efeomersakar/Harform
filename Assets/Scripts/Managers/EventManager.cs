@@ -17,7 +17,8 @@ public class EventManager : MonoBehaviour
     public event Action OnLevelCompleted;
     public event Action OnEnemyAttacked;
     public event Action OnPlayerStartPosition;
-    public event Action OnPlayerGotDamage;
+    public event Action OnPlayerKilled;
+    public event Action  OnPlayerGotDamaged;
 
     //=======================================================================
     public delegate void rewardCollected(Vector3 SpawnPosition);
@@ -121,8 +122,11 @@ public class EventManager : MonoBehaviour
             case PlayerState.PlayerStartPosition:
                 OnPlayerStartPosition?.Invoke();
                 break;
-            case PlayerState.PlayerGotDamage:
-                OnPlayerGotDamage?.Invoke();
+            case PlayerState.PlayerGotKilled:
+                OnPlayerKilled?.Invoke();
+                break;
+                case PlayerState.PlayerGotDamaged:
+                OnPlayerGotDamaged?.Invoke();
                 break;
 
         }
@@ -142,7 +146,8 @@ public class EventManager : MonoBehaviour
     public enum PlayerState
     {
         PlayerStartPosition,
-        PlayerGotDamage
+        PlayerGotDamaged,
+        PlayerGotKilled
 
     }
 }

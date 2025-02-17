@@ -74,12 +74,12 @@ public class GameManager : MonoBehaviour
             lives--;
             EndGameTime = 30f;
             isEnemyHit = false;
-            EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerStartPosition);
+            EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotDamaged);
 
             if (lives <= 0)
             {
                 EventManager.Instance.EndGame(false, lives);
-                EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotDamage);
+                EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotKilled);
                 DOVirtual.DelayedCall(1.2f, () =>
     {
         EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
         if (isWin && coin >= minimumCoin)
         {
             level++;
-            minimumCoin = +2;
+            minimumCoin++;
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene(currentSceneIndex + 1);
             //EventManager.Instance.SetState(EventManager.GameState.LevelComplete);

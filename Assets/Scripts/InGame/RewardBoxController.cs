@@ -46,7 +46,7 @@ public class RewardBoxController : MonoBehaviour
                                 }
                             });
 
-                        if (this != null) // Eğer obje hâlâ sahnedeyse
+                        if (this != null) 
                         {
                             GiveorDestroy();
                         }
