@@ -57,9 +57,9 @@ public class GameManager : MonoBehaviour
     //=========================================================================
     void Start()
     {
+        
         PlayerLayer = LayerMask.NameToLayer(stagPlayer);
         EventManager.Instance.SetState(EventManager.GameState.Initial);
-        EventManager.Instance.SetState(EventManager.GameState.GameContinue);
     }
 
     private void Update()

@@ -42,7 +42,6 @@ public class UIController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -276,7 +275,6 @@ public class UIController : MonoBehaviour
 
     private void GoToMainMenu()
     {
-        SettingsPanel.gameObject.SetActive(false);
         SceneManager.LoadScene("MainMenu");
         EventManager.Instance.SetState(EventManager.GameState.Initial);
     }

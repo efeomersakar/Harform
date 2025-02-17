@@ -28,7 +28,7 @@ public class ObjectPool : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+    
 
         //===================================================
         coinQueue = new Queue<GameObject>();

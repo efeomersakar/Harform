@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
     }
     private void PlayDeathAnimation()
     {
-        transform.DOScale(2f, 1f)
+        transform.DOScale(2f, 0.9f)
       .OnStart(() =>
       {
           GetComponent<Renderer>().material.DOColor(Color.red, 0.1f);
