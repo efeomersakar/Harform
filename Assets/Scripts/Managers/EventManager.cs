@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class EventManager : MonoBehaviour
 {
+    public event Action OnMainMenu;
     public event Action OnGameLoading;
     public event Action OnInitial;
     public event Action OnGameContinue;
@@ -17,6 +18,7 @@ public class EventManager : MonoBehaviour
     public event Action OnEnemyAttacked;
     public event Action OnPlayerStartPosition;
     public event Action OnPlayerGotDamage;
+
     //=======================================================================
     public delegate void rewardCollected(Vector3 SpawnPosition);
     public delegate void coinCollected(Vector3 PlayerPosition);
@@ -82,6 +84,9 @@ public class EventManager : MonoBehaviour
 
         switch (currentState)
         {
+            case GameState.MainMenu:
+                OnMainMenu?.Invoke();
+                break;
             case GameState.GameLoading:
                 OnGameLoading?.Invoke();
                 break;
@@ -126,6 +131,7 @@ public class EventManager : MonoBehaviour
     //==================================================================================
     public enum GameState
     {
+        MainMenu,
         GameLoading,
         Initial,
         GameContinue,

@@ -5,6 +5,7 @@ using TMPro;
 using System.Collections;
 using DG.Tweening;
 using System.Linq;
+using Palmmedia.ReportGenerator.Core;
 
 public class UIController : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class UIController : MonoBehaviour
     private Button exitButton;
     private Button MainMenuButton;
     private Button TryAgainButton;
+    private Button PauseButton;
+    private Button ContinueButton;
+
 
     // TEXT
     [SerializeField] private TextMeshProUGUI YouLoseText;
@@ -25,6 +29,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI CoinText;
     [SerializeField] private TextMeshProUGUI EndGameText;
     [SerializeField] private TextMeshProUGUI ScoreText;
+    //PANEL
+    [SerializeField] private GameObject SettingsPanel;
 
     public static UIController Instance { get; private set; }
 
@@ -86,14 +92,14 @@ public class UIController : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        StartCoroutine(DelayedUIElements()); // UI elemanlarını gecikmeli yükle
+        StartCoroutine(DelayedUIElements());
     }
 
     //==================================================================================
 
     private IEnumerator DelayedUIElements()
     {
-        yield return null; // Bir frame bekle
+        yield return null;
         UIElements();
     }
 
@@ -113,10 +119,25 @@ public class UIController : MonoBehaviour
             optionsButton = FindButton("OptionsButton");
             exitButton = FindButton("ExitButton");
 
-            if (playButton != null) playButton.onClick.AddListener(PlayGame);
-            if (loadButton != null) loadButton.onClick.AddListener(LoadGame);
-            if (optionsButton != null) optionsButton.onClick.AddListener(OpenOptions);
-            if (exitButton != null) exitButton.onClick.AddListener(ExitGame);
+            if (playButton != null)
+            {
+                playButton.onClick.AddListener(PlayGame);
+            }
+
+            if (loadButton != null)
+            {
+                loadButton.onClick.AddListener(LoadGame);
+            }
+
+            if (optionsButton != null)
+            {
+                optionsButton.onClick.AddListener(OpenOptions);
+            }
+
+            if (exitButton != null)
+            {
+                exitButton.onClick.AddListener(ExitGame);
+            }
         }
 
         if (SceneManager.GetActiveScene().name == "DefeatScene")
@@ -126,9 +147,21 @@ public class UIController : MonoBehaviour
             MainMenuButton = FindButton("MainMenuButton");
             exitButton = FindButton("ExitButton");
 
-            if (TryAgainButton != null) TryAgainButton.onClick.AddListener(TryAgain);
-            if (MainMenuButton != null) MainMenuButton.onClick.AddListener(GoToMainMenu);
-            if (exitButton != null) exitButton.onClick.AddListener(ExitGame);
+            if (TryAgainButton != null)
+            {
+                TryAgainButton.onClick.AddListener(TryAgain);
+            }
+
+            if (MainMenuButton != null)
+            {
+                MainMenuButton.onClick.AddListener(GoToMainMenu);
+            }
+
+            if (exitButton != null)
+            {
+                exitButton.onClick.AddListener(ExitGame);
+            }
+
             YouLoseTextAnimation();
         }
 
@@ -138,7 +171,34 @@ public class UIController : MonoBehaviour
             levelText = FindText("LevelText");
             LivesText = FindText("Lives");
             TimerText = FindText("Timer");
+            PauseButton = FindButton("PauseButton");
+            ContinueButton = FindButton("ContinueButton");
+            MainMenuButton = FindButton("MainMenuButton");
+            exitButton = FindButton("ExitButton");
+
+            if (PauseButton != null)
+            {
+                PauseButton.onClick.AddListener(PauseButtonClicked);
+            }
+
+            SettingsPanel = GameObject.Find("SettingsPanel");
+            SettingsPanel.SetActive(false);
+
+            if (MainMenuButton != null)
+            {
+                MainMenuButton.onClick.AddListener(GoToMainMenu);
+            }
+
+            if (exitButton != null)
+            {
+                exitButton.onClick.AddListener(ExitGame);
+            }
+            if (ContinueButton != null)
+            {
+                ContinueButton.onClick.AddListener(PauseButtonClicked);
+            }
         }
+
     }
 
     //==================================================================================
@@ -155,11 +215,13 @@ public class UIController : MonoBehaviour
         return obj != null ? obj.GetComponent<Button>() : null;
     }
 
+
     //==================================================================================
 
     private void PlayGame()
     {
         SceneManager.LoadScene("Level1");
+        EventManager.Instance.SetState(EventManager.GameState.GameContinue);
     }
 
     //==================================================================================
@@ -201,10 +263,35 @@ public class UIController : MonoBehaviour
 
     private void GoToMainMenu()
     {
+        SettingsPanel.gameObject.SetActive(false);
         SceneManager.LoadScene("MainMenu");
+        EventManager.Instance.SetState(EventManager.GameState.Initial);
     }
 
     //==================================================================================
+
+    private void PauseButtonClicked()
+    {
+        if (EventManager.Instance.currentState == EventManager.GameState.PauseLevel)
+        {
+
+            EventManager.Instance.SetState(EventManager.GameState.GameContinue);
+
+            SettingsPanel.gameObject.SetActive(false);
+
+        }
+        else
+        {
+
+            EventManager.Instance.SetState(EventManager.GameState.PauseLevel);
+            PauseButton.gameObject.SetActive(false);
+            SettingsPanel.gameObject.SetActive(true);
+
+        }
+    }
+
+    //==================================================================================
+
 
     private void coinTextEvent(Vector3 PlayerPosition)
     {
