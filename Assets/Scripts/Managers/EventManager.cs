@@ -24,13 +24,11 @@ public class EventManager : MonoBehaviour
     public delegate void rewardCollected(Vector3 SpawnPosition);
     public delegate void coinCollected(Vector3 PlayerPosition);
     public delegate void EndGameController(bool isWin, int coin);
-    public delegate void PlayerStateChange(PlayerState newState);
 
     //==================================================================================
     public event rewardCollected onRewardBoxTouched;
     public event coinCollected onCoinCollect;
     public event EndGameController onEndgameController;
-    public event PlayerStateChange onPlayerStateChange;
 
     //==================================================================================
     public GameState currentState;
@@ -113,9 +111,6 @@ public class EventManager : MonoBehaviour
     public void SetPlayerState(PlayerState newPlayerState)
     {
         PlayerCurrentState = newPlayerState;
-        onPlayerStateChange?.Invoke(PlayerCurrentState);
-
-
         switch (PlayerCurrentState)
         {
 
@@ -128,7 +123,6 @@ public class EventManager : MonoBehaviour
                 case PlayerState.PlayerGotDamaged:
                 OnPlayerGotDamaged?.Invoke();
                 break;
-
         }
     }
 
