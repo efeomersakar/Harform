@@ -54,7 +54,10 @@ public class PlayerController : MonoBehaviour
     //=========================================================
     private void PlayerStartPosition()
     {
-        transform.position = startPosition;
+        if (GameManager.Instance.lives >= 1)
+        {
+            transform.position = startPosition;
+        }
     }
     private void PlayDeathAnimation()
     {

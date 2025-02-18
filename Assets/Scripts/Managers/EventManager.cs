@@ -16,7 +16,6 @@ public class EventManager : MonoBehaviour
     public event Action OnLevelFailed;
     public event Action OnLevelCompleted;
     public event Action OnEnemyAttacked;
-    public event Action OnPlayerStartPosition;
     public event Action OnPlayerKilled;
     public event Action  OnPlayerGotDamaged;
 
@@ -114,9 +113,7 @@ public class EventManager : MonoBehaviour
         switch (PlayerCurrentState)
         {
 
-            case PlayerState.PlayerStartPosition:
-                OnPlayerStartPosition?.Invoke();
-                break;
+
             case PlayerState.PlayerGotKilled:
                 OnPlayerKilled?.Invoke();
                 break;
@@ -139,7 +136,6 @@ public class EventManager : MonoBehaviour
     }
     public enum PlayerState
     {
-        PlayerStartPosition,
         PlayerGotDamaged,
         PlayerGotKilled
 
