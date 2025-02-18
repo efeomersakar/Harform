@@ -68,12 +68,15 @@ public class GameManager : MonoBehaviour
 
         if (EndGameTime < 0 || isEnemyHit)
         {
-            lives--;
-            EndGameTime = 30f;
-            isEnemyHit = false;
-            EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotDamaged);
+            if (lives > 0)
+            {
+                lives--;
+                EndGameTime = 30f;
+                isEnemyHit = false;
+                EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotDamaged);
+            }
 
-            if (lives <= 0)
+            if (lives == 0)
             {
                 EventManager.Instance.EndGame(false, lives);
                 EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotKilled);
@@ -89,7 +92,7 @@ public class GameManager : MonoBehaviour
     //==========================================================================
     public void LevelComplete(bool isWin, int coin)
     {
-        if (isWin && coin >= minimumCoin)
+        if (isWin && (level == 3 || coin >= minimumCoin))
         {
             level++;
             minimumCoin++;
@@ -98,10 +101,9 @@ public class GameManager : MonoBehaviour
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex + 1);
+        EventManager.Instance.SetState(EventManager.GameState.GameContinue);
+
     });
-
-
-
         }
         else
         {
