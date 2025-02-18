@@ -77,10 +77,7 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        if (EventManager.Instance != null)
-        {
-            EventManager.Instance.SetState(EventManager.GameState.GameContinue);
-        }
+    
     }
 
     //==================================================================================
@@ -297,7 +294,6 @@ public class UIController : MonoBehaviour
     private void GoToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
-        EventManager.Instance.SetState(EventManager.GameState.Initial);
     }
 
     //==================================================================================
@@ -308,13 +304,11 @@ public class UIController : MonoBehaviour
         {
 
             EventManager.Instance.SetState(EventManager.GameState.GameContinue);
-
             SettingsPanel.gameObject.SetActive(false);
 
         }
         else
         {
-
             EventManager.Instance.SetState(EventManager.GameState.PauseLevel);
             PauseButton.gameObject.SetActive(false);
             SettingsPanel.gameObject.SetActive(true);

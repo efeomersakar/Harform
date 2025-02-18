@@ -5,8 +5,8 @@ using DG.Tweening;
 
 public class BossController : MonoBehaviour
 {
-    public float moveDistance = 25f;
-    public float moveDuration = 1f;
+    private float moveDistance = 9f;
+    private float moveDuration = 5f;
     public float speed = 5f;
 
     private void Start()

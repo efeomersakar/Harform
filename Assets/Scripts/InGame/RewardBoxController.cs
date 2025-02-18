@@ -20,7 +20,7 @@ public class RewardBoxController : MonoBehaviour
         PlayerLayer = LayerMask.NameToLayer(stagPlayer);
     }
 
-    public void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter(Collision other)
     {
         if (other == null || other.gameObject == null || transform == null) return; 
 

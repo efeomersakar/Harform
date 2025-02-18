@@ -15,8 +15,6 @@ public class GameManager : MonoBehaviour
     public int lives = 3;
     private int minimumCoin = 1;
     private bool isEnemyHit = false;
-    int PlayerLayer;
-    const string stagPlayer = "Player";
     public static GameManager Instance
 
     {
@@ -57,12 +55,8 @@ public class GameManager : MonoBehaviour
     //=========================================================================
     void Start()
     {
-
-        PlayerLayer = LayerMask.NameToLayer(stagPlayer);
         EventManager.Instance.SetState(EventManager.GameState.MainMenu);
         EventManager.Instance.SetState(EventManager.GameState.Initial);
-        EventManager.Instance.SetState(EventManager.GameState.GameContinue);
-
     }
 
     private void Update()
