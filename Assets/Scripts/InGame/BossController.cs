@@ -19,19 +19,16 @@ public class BossController : MonoBehaviour
         float startY = transform.position.y;
         float startX = transform.position.x;
 
-        transform.DOMoveY(startY + moveDistance, moveDuration / speed)
-            .SetLoops(2, LoopType.Yoyo)
-            .SetEase(Ease.InOutSine)
-            .OnComplete(() =>
-            {
-                transform.DOMoveX(startX + moveDistance, moveDuration / speed)
-                    .SetLoops(2, LoopType.Yoyo)
-                    .SetEase(Ease.InOutSine)
-                    .OnComplete(() =>
-                    {
-                        MoveEnemy();
-                    });
-            });
+        Sequence moveSequence = DOTween.Sequence();
+        moveSequence.Append(transform.DOMoveY(startY + moveDistance, moveDuration / speed)
+                            .SetEase(Ease.InOutSine))
+                    .Append(transform.DOMoveY(startY, moveDuration / speed)
+                            .SetEase(Ease.InOutSine)) // Y ekseni hareketini tamamlıyo
+                    .Append(transform.DOMoveX(startX + moveDistance, moveDuration / speed)
+                            .SetEase(Ease.InOutSine))
+                    .Append(transform.DOMoveX(startX, moveDuration / speed)
+                            .SetEase(Ease.InOutSine)) // X ekseni hareketini tamamlıyo
+                    .SetLoops(-1); // Sonsuz döngü
     }
 
     private void OnTriggerEnter(Collider collision)

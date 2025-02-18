@@ -61,19 +61,25 @@ public class PlayerController : MonoBehaviour
     }
     private void PlayDeathAnimation()
     {
-        transform.DOScale(2f, 0.9f)
-      .OnStart(() =>
-      {
-          GetComponent<Renderer>().material.DOColor(Color.red, 0.1f);
-      })
-      .OnComplete(() =>
-      {
-          transform.DOScale(0f, 0.1f)
-              .OnComplete(() =>
-              {
-                  Destroy(gameObject);
-              });
-      });
+        Sequence deathAnimation = DOTween.Sequence();
+        deathAnimation.Append(transform.DOScale(2f, 0.9f).OnStart(() => 
+            GetComponent<Renderer>().material.DOColor(Color.red, 0.1f)));
+        deathAnimation.Append(transform.DOScale(0f, 0.1f));
+        deathAnimation.AppendCallback(() => Destroy(gameObject));
+
+    //     transform.DOScale(2f, 0.9f)
+    //   .OnStart(() =>
+    //   {
+    //       GetComponent<Renderer>().material.DOColor(Color.red, 0.1f);
+    //   })
+    //   .OnComplete(() =>
+    //   {
+    //       transform.DOScale(0f, 0.1f)
+    //           .OnComplete(() =>
+    //           {
+    //               Destroy(gameObject);
+    //           });
+    //   });
     }
 
 

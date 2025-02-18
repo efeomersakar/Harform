@@ -19,57 +19,37 @@ public class RewardBoxController : MonoBehaviour
     {
         PlayerLayer = LayerMask.NameToLayer(stagPlayer);
     }
-
-    private void OnCollisionEnter(Collision other)
+    private void PlayJumpAnimation()
     {
-        if (other == null || other.gameObject == null || transform == null) return; 
+        Sequence boxJumpSequence = DOTween.Sequence();
+        boxJumpSequence.Append(transform.DOMoveY(transform.position.y + jumpHeight, jumpDuration)
+                                    .SetEase(Ease.OutQuad))
+                        .Append(transform.DOMoveY(transform.position.y, jumpDuration)
+                                    .SetEase(Ease.OutCubic));
+    }
+
+    public void OnCollisionEnter(Collision other)
+    {
+        if (other == null || other.gameObject == null || transform == null) return;
 
         if (other.gameObject.layer.Equals(PlayerLayer) && !isRewardGiven)
         {
-            if (other.contacts.Length > 0) 
+            if (other.contacts.Length > 0)
             {
-                Vector3 collisionNormal = other.contacts[0].normal;
-                if (collisionNormal.y > 0.5f)
+                PlayJumpAnimation();
+                if (this != null)
                 {
-                    isRewardGiven = true;
-                    if (transform != null)
-                    {
-                        Vector3 targetPosition = transform.position + Vector3.up * jumpHeight;
-                        transform.DOMoveY(targetPosition.y, jumpDuration)
-                            .SetEase(Ease.OutQuad)
-                            .OnComplete(() =>
-                            {
-                                if (transform != null)
-                                {
-                                    transform.DOMoveY(transform.position.y - jumpHeight, jumpDuration)
-                                        .SetEase(Ease.OutCubic);
-                                }
-                            });
-
-                        if (this != null) 
-                        {
-                            GiveorDestroy();
-                        }
-                    }
+                    GiveorDestroy();
                 }
             }
         }
         else
         {
+
             isRewardGiven = true;
             if (transform != null)
             {
-                Vector3 targetPosition = transform.position + Vector3.up * jumpHeight;
-                transform.DOMoveY(targetPosition.y, jumpDuration)
-                    .SetEase(Ease.OutQuad)
-                    .OnComplete(() =>
-                    {
-                        if (transform != null)
-                        {
-                            transform.DOMoveY(transform.position.y - jumpHeight, jumpDuration)
-                                .SetEase(Ease.OutCubic);
-                        }
-                    });
+                PlayJumpAnimation();
             }
         }
     }
@@ -97,17 +77,17 @@ public class RewardBoxController : MonoBehaviour
         Renderer renderer = GetComponent<Renderer>();
         if (renderer != null)
         {
+            Sequence scaleAndColorSequence = DOTween.Sequence();
 
-            renderer.material.DOColor(Color.red, 0.5f);
+            scaleAndColorSequence.Append(renderer.material.DOColor(Color.red, 0.5f))
+                                   .Append(transform.DOScale(Vector3.zero, 0.5f)
+                                                   .SetEase(Ease.InBack))
+                                   .OnComplete(() =>
+                                   {
+                                       ObjectPool.Instance.ReturnRewardBoxToPool(this.gameObject);
+                                   });
         }
 
-        transform.DOScale(Vector3.zero, 0.5f)
-            .SetEase(Ease.InBack)
-            .OnComplete(() =>
-            {
-                ObjectPool.Instance.ReturnRewardBoxToPool(this.gameObject);
-            });
     }
 }
-
 
