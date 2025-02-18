@@ -25,7 +25,7 @@ public class BossController : MonoBehaviour
             .OnComplete(() =>
             {
                 transform.DOMoveX(startX + moveDistance, moveDuration * speed)
-                    .SetLoops(2, LoopType.Yoyo) // Loop twice (right and left)
+                    .SetLoops(2, LoopType.Yoyo) 
                     .SetEase(Ease.InOutSine)
                     .OnComplete(() =>
                     {

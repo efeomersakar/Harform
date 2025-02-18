@@ -1224,7 +1224,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1295549307}
   - component: {fileID: 1295549308}
-  - component: {fileID: 1295549309}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1262,22 +1261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8184beafb4071fe4e94a6256d85f3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1295549309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1295549306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf991cf90d4577a4d86809ed41f23953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DeathSound: {fileID: 0}
-  RewardBoxSound: {fileID: 0}
-  LevelCompletedSound: {fileID: 0}
-  audioSource: {fileID: 0}
 --- !u!1 &1447126945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1459,8 +1442,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 52cf0adfff3c26c44892ebc510371ad8, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.505
+  m_PlayOnAwake: 0
+  m_Volume: 0.242
   m_Pitch: 1
   Loop: 0
   Mute: 0

@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
         EventManager.Instance.OnPlayerGotDamaged -= PlayerStartPosition;
         EventManager.Instance.OnPlayerKilled -= PlayDeathAnimation;
     }
+    //=====================================================================
 
     void Start()
     {
@@ -39,7 +40,6 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
 
     //==================================================================================
 
@@ -72,6 +72,6 @@ public class PlayerController : MonoBehaviour
               });
       });
     }
-    
+
 
 }

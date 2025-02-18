@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class SoundManager : MonoBehaviour
@@ -13,16 +14,15 @@ public class SoundManager : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         audioSource = GetComponent<AudioSource>();
-        if (audioSource != null)
-        {
-            audioSource.Play();
-        }
     }
+
     private void OnEnable()
     {
         EventManager.Instance.onRewardBoxTouched += RewardBoxSoundPlay;
         EventManager.Instance.OnPlayerKilled += PlayerDeathSoundPlay;
         EventManager.Instance.OnLevelCompleted += LevelCompletedSoundPlay;
+        EventManager.Instance.OnGameContinue += MainThemeSoundPlay;
+
 
     }
 
@@ -33,6 +33,7 @@ public class SoundManager : MonoBehaviour
         EventManager.Instance.onRewardBoxTouched -= RewardBoxSoundPlay;
         EventManager.Instance.OnPlayerKilled -= PlayerDeathSoundPlay;
         EventManager.Instance.OnLevelCompleted -= LevelCompletedSoundPlay;
+        EventManager.Instance.OnGameContinue -= MainThemeSoundPlay;
 
     }
 
@@ -47,14 +48,23 @@ public class SoundManager : MonoBehaviour
     }
 
     //==================================================================================
+    private void MainThemeSoundPlay()
+    {
+        audioSource.Play();
+    }
+    //==================================================================================
+
     private void PlayerDeathSoundPlay()
     {
         if (DeathSound != null)
         {
-            audioSource.Stop();
+            audioSource.Pause();
             AudioSource.PlayClipAtPoint(DeathSound, transform.position);
+
+
         }
-   
+
+
     }
     //==================================================================================
 
@@ -62,10 +72,13 @@ public class SoundManager : MonoBehaviour
     {
         if (LevelCompletedSound != null)
         {
-            audioSource.Stop();
+            audioSource.Pause();
             AudioSource.PlayClipAtPoint(LevelCompletedSound, transform.position);
+            ;
         }
+
     }
     //==================================================================================
 
 }
+
