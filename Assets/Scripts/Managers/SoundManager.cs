@@ -23,7 +23,6 @@ public class SoundManager : MonoBehaviour
         EventManager.Instance.OnLevelCompleted += LevelCompletedSoundPlay;
         EventManager.Instance.OnGameContinue += MainThemeSoundPlay;
 
-
     }
 
     //=================================================================================================

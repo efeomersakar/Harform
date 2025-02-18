@@ -99,7 +99,7 @@ public class EventManager : MonoBehaviour
                 break;
             case GameState.LevelFailed:
                 OnLevelFailed?.Invoke();
-                SceneManager.LoadScene("DefeatScene");
+                
                 break;
             case GameState.LevelComplete:
                 OnLevelCompleted?.Invoke();

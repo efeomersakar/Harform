@@ -38,7 +38,6 @@ public class PlayerController : MonoBehaviour
         {
             HandleMovement();
         }
-
     }
 
     //==================================================================================
@@ -50,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
         UnityEngine.Vector3 movement = new UnityEngine.Vector3(moveX, moveY, 0);
         transform.Translate(movement * moveSpeed * Time.deltaTime);
+
     }
     //=========================================================
     private void PlayerStartPosition()

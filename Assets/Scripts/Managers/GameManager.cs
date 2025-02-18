@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public int lives = 3;
     private int minimumCoin = 1;
     private bool isEnemyHit = false;
+    private bool isGameContinue = false;
     public static GameManager Instance
 
     {
@@ -40,6 +41,8 @@ public class GameManager : MonoBehaviour
         EventManager.Instance.onCoinCollect += coinCollected;
         EventManager.Instance.OnEnemyAttacked += EnemyHit;
         EventManager.Instance.onEndgameController += LevelComplete;
+        EventManager.Instance.OnLevelFailed += LevelFailed;
+
 
 
     }
@@ -49,6 +52,7 @@ public class GameManager : MonoBehaviour
         EventManager.Instance.onCoinCollect -= coinCollected;
         EventManager.Instance.OnEnemyAttacked -= EnemyHit;
         EventManager.Instance.onEndgameController -= LevelComplete;
+        EventManager.Instance.OnLevelFailed -= LevelFailed;
 
 
     }
@@ -63,6 +67,7 @@ public class GameManager : MonoBehaviour
     {
         if (EventManager.Instance.currentState == EventManager.GameState.GameContinue)
         {
+            isGameContinue = true;
             EndGameTime -= Time.deltaTime;
         }
 
@@ -76,16 +81,18 @@ public class GameManager : MonoBehaviour
                 EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotDamaged);
             }
 
-            if (lives == 0)
+            if (lives == 0 && isGameContinue)
             {
+                
                 EventManager.Instance.EndGame(false, lives);
                 EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotKilled);
                 DOVirtual.DelayedCall(1f, () =>
     {
         EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
     });
-
+            isGameContinue=false;
             }
+
         }
 
     }
@@ -99,8 +106,6 @@ public class GameManager : MonoBehaviour
             EventManager.Instance.SetState(EventManager.GameState.LevelComplete);
             DOVirtual.DelayedCall(1.2f, () =>
     {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentSceneIndex + 1);
         EventManager.Instance.SetState(EventManager.GameState.GameContinue);
 
     });
@@ -123,5 +128,12 @@ public class GameManager : MonoBehaviour
         isEnemyHit = true;
     }
     //=========================================================================
+    private void LevelFailed()
+    {
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("DefeatScene");
+        Debug.Log("KAÇ DEFA ÇAĞIRDI");
+
+
+    }
 
 }
