@@ -310,6 +310,8 @@ public class UIController : MonoBehaviour
 
             EventManager.Instance.SetState(EventManager.GameState.GameContinue);
             SettingsPanel.gameObject.SetActive(false);
+            PauseButton.gameObject.SetActive(true);
+
 
         }
         else

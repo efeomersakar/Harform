@@ -24,7 +24,7 @@ public class FinishTouch : MonoBehaviour
             GameManager.Instance.LevelComplete(true, GameManager.Instance.coin);
 
         }
-
+    
     }
     //==================================================================================
 

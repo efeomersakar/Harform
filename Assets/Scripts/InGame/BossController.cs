@@ -7,7 +7,7 @@ public class BossController : MonoBehaviour
 {
     private float moveDistance = 9f;
     private float moveDuration = 5f;
-    public float speed = 5f;
+    public float speed = 15f;
 
     private void Start()
     {
