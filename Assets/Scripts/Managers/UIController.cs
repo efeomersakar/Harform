@@ -77,7 +77,7 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-    
+
     }
 
     //==================================================================================
@@ -197,39 +197,39 @@ public class UIController : MonoBehaviour
                 ContinueButton.onClick.AddListener(PauseButtonClicked);
             }
         }
-            // LevelCompletePanel = GameObject.Find("LevelCompletePanel");
+        // LevelCompletePanel = GameObject.Find("LevelCompletePanel");
 
-            // if (EventManager.Instance.currentState == EventManager.GameState.LevelComplete)
-            // {
-            //     LevelCompletePanel.SetActive(true);
-            // }
-            //  else
-            // {
-            //      LevelCompletePanel.SetActive(false);
-            // }
-            if (SceneManager.GetActiveScene().name == "EndScene")
+        // if (EventManager.Instance.currentState == EventManager.GameState.LevelComplete)
+        // {
+        //     LevelCompletePanel.SetActive(true);
+        // }
+        //  else
+        // {
+        //      LevelCompletePanel.SetActive(false);
+        // }
+        if (SceneManager.GetActiveScene().name == "EndScene")
+        {
+            YouLoseText = FindText("YouWinText");
+            MainMenuButton = FindButton("MainMenuButton");
+            exitButton = FindButton("ExitButton");
+
+
+            if (MainMenuButton != null)
             {
-                YouLoseText = FindText("YouWinText");
-                MainMenuButton = FindButton("MainMenuButton");
-                exitButton = FindButton("ExitButton");
-
-
-                if (MainMenuButton != null)
-                {
-                    MainMenuButton.onClick.AddListener(GoToMainMenu);
-                }
-
-                if (exitButton != null)
-                {
-                    exitButton.onClick.AddListener(ExitGame);
-                }
-
-                YouWinTextAnimation();
+                MainMenuButton.onClick.AddListener(GoToMainMenu);
             }
 
+            if (exitButton != null)
+            {
+                exitButton.onClick.AddListener(ExitGame);
+            }
+
+            YouWinTextAnimation();
         }
 
-    
+    }
+
+
 
     //==================================================================================
 
@@ -294,6 +294,11 @@ public class UIController : MonoBehaviour
     private void GoToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        EventManager.Instance.SetState(EventManager.GameState.MainMenu);
+        GameManager.Instance.lives = 3;
+        GameManager.Instance.coin = 0;
+        GameManager.Instance.EndGameTime = 30f;
+
     }
 
     //==================================================================================
