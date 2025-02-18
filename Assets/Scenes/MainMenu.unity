@@ -1713,6 +1713,7 @@ MonoBehaviour:
   CoinText: {fileID: 0}
   EndGameText: {fileID: 0}
   ScoreText: {fileID: 0}
+  YouWinText: {fileID: 0}
   SettingsPanel: {fileID: 0}
   LevelCompletePanel: {fileID: 0}
 --- !u!1 &1787574506

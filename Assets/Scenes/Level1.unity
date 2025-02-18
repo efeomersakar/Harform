@@ -2776,6 +2776,7 @@ MonoBehaviour:
   CoinText: {fileID: 0}
   EndGameText: {fileID: 0}
   ScoreText: {fileID: 0}
+  YouWinText: {fileID: 0}
   SettingsPanel: {fileID: 0}
   LevelCompletePanel: {fileID: 0}
 --- !u!1 &1161249799
@@ -4730,7 +4731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CoinPrefab: {fileID: 3618462741577199006, guid: e1c4ed2fc5d632b4ea5c708e15f91980, type: 3}
-  RewardBoxPrefab: {fileID: 86497725185145068, guid: 3abd3f1b88385554dad3145cdffc2c0d, type: 3}
+  RewardBoxPrefab: {fileID: 8223194308173779286, guid: 3abd3f1b88385554dad3145cdffc2c0d, type: 3}
   poolSize: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

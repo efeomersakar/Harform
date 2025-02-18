@@ -29,6 +29,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI CoinText;
     [SerializeField] private TextMeshProUGUI EndGameText;
     [SerializeField] private TextMeshProUGUI ScoreText;
+    [SerializeField] private TextMeshProUGUI YouWinText;
+
     //PANEL
     [SerializeField] private GameObject SettingsPanel;
     [SerializeField] private GameObject LevelCompletePanel;
@@ -197,6 +199,7 @@ public class UIController : MonoBehaviour
             {
                 ContinueButton.onClick.AddListener(PauseButtonClicked);
             }
+        }
             // LevelCompletePanel = GameObject.Find("LevelCompletePanel");
 
             // if (EventManager.Instance.currentState == EventManager.GameState.LevelComplete)
@@ -207,11 +210,29 @@ public class UIController : MonoBehaviour
             // {
             //      LevelCompletePanel.SetActive(false);
             // }
-            
+            if (SceneManager.GetActiveScene().name == "EndScene")
+            {
+                YouLoseText = FindText("YouWinText");
+                MainMenuButton = FindButton("MainMenuButton");
+                exitButton = FindButton("ExitButton");
+
+
+                if (MainMenuButton != null)
+                {
+                    MainMenuButton.onClick.AddListener(GoToMainMenu);
+                }
+
+                if (exitButton != null)
+                {
+                    exitButton.onClick.AddListener(ExitGame);
+                }
+
+                YouWinTextAnimation();
+            }
 
         }
 
-    }
+    
 
     //==================================================================================
 
@@ -356,9 +377,25 @@ public class UIController : MonoBehaviour
                 .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.InOutSine);
 
-            YouLoseText.DOColor(new Color(1f, 0f, 0f), 0.5f)
+            YouLoseText.DOColor(Color.red, 0.5f)
                 .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.Linear);
+        }
+    }
+
+    //==================================================================================
+    private void YouWinTextAnimation()
+    {
+        if (YouLoseText != null)
+        {
+            DOTween.Init();
+            YouLoseText.transform.DOScale(Vector3.one * 1.5f, 0.5f)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetEase(Ease.InOutSine);
+
+            YouWinText.DOColor(Color.green, 0.5f)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetEase(Ease.InOutSine);
         }
     }
 

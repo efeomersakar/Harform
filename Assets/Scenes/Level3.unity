@@ -2554,7 +2554,7 @@ Transform:
   m_GameObject: {fileID: 1344738134}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.6, y: -27.7, z: 10.12}
+  m_LocalPosition: {x: -8.9, y: -27.7, z: 10.12}
   m_LocalScale: {x: 5.388054, y: 2.8355, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2645,8 +2645,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0296f31becdc82b47a2d8106bd8dd0df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDistance: 10
-  moveDuration: 1
+  moveDistance: 9
+  moveDuration: 5
   speed: 5
 --- !u!1 &1406935397
 GameObject:
@@ -3970,6 +3970,7 @@ MonoBehaviour:
   CoinText: {fileID: 0}
   EndGameText: {fileID: 0}
   ScoreText: {fileID: 0}
+  YouWinText: {fileID: 0}
   SettingsPanel: {fileID: 0}
   LevelCompletePanel: {fileID: 0}
 --- !u!4 &1942006834

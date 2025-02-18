@@ -19,13 +19,13 @@ public class BossController : MonoBehaviour
         float startY = transform.position.y;
         float startX = transform.position.x;
 
-        transform.DOMoveY(startY + moveDistance, moveDuration * speed)
+        transform.DOMoveY(startY + moveDistance, moveDuration / speed)
             .SetLoops(2, LoopType.Yoyo)
             .SetEase(Ease.InOutSine)
             .OnComplete(() =>
             {
-                transform.DOMoveX(startX + moveDistance, moveDuration * speed)
-                    .SetLoops(2, LoopType.Yoyo) 
+                transform.DOMoveX(startX + moveDistance, moveDuration / speed)
+                    .SetLoops(2, LoopType.Yoyo)
                     .SetEase(Ease.InOutSine)
                     .OnComplete(() =>
                     {
@@ -39,10 +39,10 @@ public class BossController : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotKilled);
-             DOVirtual.DelayedCall(1.2f, () =>
-    {
-        EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
-    });
+            DOVirtual.DelayedCall(1.2f, () =>
+   {
+       EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
+   });
 
         }
     }
