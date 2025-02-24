@@ -130,10 +130,8 @@ public class GameManager : MonoBehaviour
     //=========================================================================
     private void LevelFailed()
     {
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("DefeatScene");
-        Debug.Log("KAÇ DEFA ÇAĞIRDI");
-
-
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("DefeatScene"); //yeni sahne çağırma metodu
+        //Debug.Log("KAÇ DEFA ÇAĞIRDI");
     }
 
 }
