@@ -40,6 +40,7 @@ public class RewardBoxController : MonoBehaviour
                 if (this != null)
                 {
                     GiveorDestroy();
+                    isRewardGiven = true;
                 }
             }
         }
