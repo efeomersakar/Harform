@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 finalInput = inputDirection != Vector2.zero ? inputDirection : keyboardInput;
         Vector3 movement = new Vector3(finalInput.x, finalInput.y, 0);
-        transform.Translate(movement * moveSpeed * Time.deltaTime);
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 
     #region Keyboard Controls
@@ -51,24 +51,41 @@ public class PlayerController : MonoBehaviour
     {
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
-        keyboardInput = new Vector2(moveX, moveY);
+        keyboardInput = new Vector3(moveX, moveY, 0);
     }
     #endregion
 
     #region Touch Controls
     private void HandleTouchInput()
     {
-        #if UNITY_EDITOR
+        Vector2 touchPosition = Vector2.zero;
+        bool isInputActive = false;
+
+#if UNITY_EDITOR
         if (Input.GetMouseButton(0))
         {
-            Vector2 touchPosition = Input.mousePosition;
-        #else
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            Vector2 touchPosition = touch.position;
-        #endif
+            touchPosition = Input.mousePosition;
+            isInputActive = true;
+        }
+#else
+    if (Input.touchCount > 0)
+    {
+        Touch touch = Input.GetTouch(0);
+        touchPosition = touch.position;
+        isInputActive = touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved;
 
+        if (touch.phase == TouchPhase.Ended)
+        {
+            inputDirection = Vector2.zero;
+            Debug.Log("kullanıcı dokunmayı nıraktı");
+            return;
+        }
+ 
+    }
+#endif
+
+        if (isInputActive)
+        {
             float screenWidth = Screen.width;
             float screenHeight = Screen.height;
 
@@ -88,6 +105,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+
     private void PlayerStartPosition()
     {
         if (GameManager.Instance.lives >= 1)
@@ -99,7 +117,7 @@ public class PlayerController : MonoBehaviour
     private void PlayDeathAnimation()
     {
         Sequence deathAnimation = DOTween.Sequence();
-        deathAnimation.Append(transform.DOScale(2f, 0.9f).OnStart(() => 
+        deathAnimation.Append(transform.DOScale(2f, 0.9f).OnStart(() =>
             GetComponent<Renderer>().material.DOColor(Color.red, 0.1f)));
         deathAnimation.Append(transform.DOScale(0f, 0.1f));
         deathAnimation.AppendCallback(() => Destroy(gameObject));
