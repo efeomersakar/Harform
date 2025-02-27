@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     private int minimumCoin = 1;
     private bool isEnemyHit = false;
     private bool isGameContinue = false;
+    public int seed;
+    public int savedSeed;
+
     public static GameManager Instance
 
     {
@@ -65,6 +68,8 @@ public class GameManager : MonoBehaviour
 
     private void GameInitial()
     {
+        seed = -1;
+        SetSeed();
         isGameContinue = true;
         lives = 3;
         coin = 0;
@@ -150,6 +155,7 @@ public class GameManager : MonoBehaviour
     //=========================================================================
     private void LevelFailed()
     {
+        savedSeed = seed;
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("DefeatScene"); //yeni sahne çağırma metodu
         //Debug.Log("KAÇ DEFA ÇAĞIRDI");
     }
@@ -157,9 +163,23 @@ public class GameManager : MonoBehaviour
 
     private void NextLevel()
     {
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("Level" + level); 
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("Level" + level);
     }
+    //=========================================================================
 
+    public void SetSeed()
+    {
+        if (savedSeed != -1)
+        {
+            seed = savedSeed;
+        }
+        else if (seed == -1)
+        {
+            seed = UnityEngine.Random.Range(0, int.MaxValue);
+        }
 
-
+        UnityEngine.Random.InitState(seed);
+    }
+    //=========================================================================
 }
+

@@ -281,13 +281,14 @@ public class UIController : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "DefeatScene")
         {
-
+            
             SceneManager.LoadScene("Level" + GameManager.Instance.level);
             EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerInitial);
             EventManager.Instance.SetState(EventManager.GameState.Initial);
 
+
         }
-    }   
+    }
 
     //==================================================================================
 

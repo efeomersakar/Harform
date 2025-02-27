@@ -1615,6 +1615,8 @@ MonoBehaviour:
   coin: 0
   EndGameTime: 30
   lives: 3
+  seed: 0
+  savedSeed: 0
 --- !u!4 &570834511298488875
 Transform:
   m_ObjectHideFlags: 0
