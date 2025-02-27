@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
             EndGameTime -= Time.deltaTime;
         }
 
-        if (EndGameTime < 0 || isEnemyHit) 
+        if (EndGameTime < 0 || isEnemyHit)
         {
             if (lives > 0 && isGameContinue)
             {
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
                 EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotKilled);
                 StartCoroutine(failWait());
                 isGameContinue = false;
-                
+
                 //             DOVirtual.DelayedCall(1f, () =>
                 // {
                 //     EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
@@ -125,6 +125,7 @@ public class GameManager : MonoBehaviour
             EventManager.Instance.SetState(EventManager.GameState.LevelComplete);
             DOVirtual.DelayedCall(1.2f, () =>
     {
+        NextLevel();
         EventManager.Instance.SetState(EventManager.GameState.GameContinue);
 
     });
@@ -152,5 +153,13 @@ public class GameManager : MonoBehaviour
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("DefeatScene"); //yeni sahne çağırma metodu
         //Debug.Log("KAÇ DEFA ÇAĞIRDI");
     }
+    //=========================================================================
+
+    private void NextLevel()
+    {
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("Level" + level); 
+    }
+
+
 
 }

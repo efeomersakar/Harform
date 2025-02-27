@@ -5,14 +5,15 @@ using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 3f;
     private Rigidbody rb;
     private Vector3 startPosition;
-    private Vector2 InputstartPosition;
-
+    private Vector2 touchStartPos;
+    private bool isTouchActive = false;
     private Vector2 inputDirection;
     private Vector2 keyboardInput;
     public BoxCollider PlayerBox;
+    float safeAreaLimit;
 
     void OnEnable()
     {
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         startPosition = transform.position;
+        safeAreaLimit = Screen.safeArea.y + Screen.safeArea.height * 0.75f;
     }
 
     void Update()
@@ -44,16 +46,15 @@ public class PlayerController : MonoBehaviour
             HandleMovement();
             PlayerBox.enabled = true;
         }
-        if(GameManager.Instance.lives==0)
+        if (GameManager.Instance.lives == 0)
         {
-            PlayerBox.enabled = false;  
+            PlayerBox.enabled = false;
         }
     }
+
     private void GameInitial()
     {
-
     }
-
 
     private void HandleMovement()
     {
@@ -78,41 +79,47 @@ public class PlayerController : MonoBehaviour
         bool isInputActive = false;
 
 #if UNITY_EDITOR
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
+            if (Input.mousePosition.y > safeAreaLimit) return;
+            touchStartPos = Input.mousePosition;
+            isInputActive = true;
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            if (Input.mousePosition.y > safeAreaLimit) return;
             touchPosition = Input.mousePosition;
             isInputActive = true;
         }
 #else
-    if (Input.touchCount > 0 && Input.touchCount< 1)
-    {
-        Touch touch = Input.GetTouch(0);
-        touchPosition = touch.position;
-        isInputActive = touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved;
-
-        if (touch.phase == TouchPhase.Ended)
+        if (Input.touchCount == 1)
         {
-            inputDirection = Vector2.zero;
-           
-            return;
+            Touch touch = Input.GetTouch(0);
+            if (touch.position.y > safeAreaLimit) return;
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                touchStartPos = touch.position; 
+                isInputActive = true;
+            }
+            else if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+            {
+                touchPosition = touch.position;
+                isInputActive = true;
+            }
+            else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+            {
+                inputDirection = Vector2.zero;
+                isInputActive = false;
+                return;
+            }
         }
- 
-    }
 #endif
 
         if (isInputActive)
         {
-            float screenWidth = Screen.width;
-            float screenHeight = Screen.height;
-
-            if (touchPosition.x < screenWidth / 3)
-                inputDirection = Vector2.left;
-            else if (touchPosition.x > 2 * screenWidth / 3)
-                inputDirection = Vector2.right;
-            else if (touchPosition.y > 2 * screenHeight / 3)
-                inputDirection = Vector2.up;
-            else if (touchPosition.y < screenHeight / 3)
-                inputDirection = Vector2.down;
+            Vector2 delta = (touchPosition - touchStartPos).normalized;
+            inputDirection = delta;
         }
         else
         {
@@ -120,7 +127,6 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
-
 
     private void PlayerStartPosition()
     {
