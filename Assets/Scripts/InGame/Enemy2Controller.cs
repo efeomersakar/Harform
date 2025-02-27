@@ -18,15 +18,18 @@ public class Enemy2Controller : MonoBehaviour
     {
         float startY = transform.position.y;
 
-        transform.DOMoveY(startY + moveDistance, moveDuration*speed)
-            .SetLoops(-1, LoopType.Yoyo) 
-            .SetEase(Ease.InOutSine); 
+        transform.DOMoveY(startY + moveDistance, moveDuration * speed)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.InOutSine);
     }
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            EventManager.Instance.EnemyAttacked();
+            if (EventManager.Instance.currentState == EventManager.GameState.GameContinue)
+            {
+                EventManager.Instance.EnemyAttacked();
+            }
         }
     }
 }

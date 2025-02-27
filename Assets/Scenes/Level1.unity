@@ -709,7 +709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -299, y: -152}
+  m_AnchoredPosition: {x: -320, y: -100.3}
   m_SizeDelta: {x: 134.4832, y: 47.9836}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &352737954
@@ -1077,7 +1077,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -304.87262, y: -269.07874}
+  m_AnchoredPosition: {x: -325.8726, y: -217.37875}
   m_SizeDelta: {x: 96.5379, y: 44.141}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &624008669
@@ -2180,7 +2180,7 @@ Transform:
   m_GameObject: {fileID: 921723904}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.52, y: -29.57, z: 10.12}
+  m_LocalPosition: {x: -6.56, y: -29.57, z: 10.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2226,6 +2226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  PlayerBox: {fileID: 921723905}
 --- !u!1 &956910109
 GameObject:
   m_ObjectHideFlags: 0
@@ -4059,7 +4060,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -297.49982, y: -211.24216}
+  m_AnchoredPosition: {x: -318.4998, y: -159.54218}
   m_SizeDelta: {x: 149.4835, y: 44.4678}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1841571795

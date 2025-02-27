@@ -16,16 +16,21 @@ public class EnemyController : MonoBehaviour
     private void MoveEnemy()
     {
 
-        transform.DOMoveX(transform.position.x + moveDistance, moveDuration*speed)
+        transform.DOMoveX(transform.position.x + moveDistance, moveDuration * speed)
                    .SetEase(Ease.InOutSine)
                    .SetLoops(-1, LoopType.Yoyo);
 
     }
     private void OnTriggerEnter(Collider collision)
     {
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            EventManager.Instance.EnemyAttacked();         
+            if (EventManager.Instance.currentState == EventManager.GameState.GameContinue)
+            {
+                EventManager.Instance.EnemyAttacked();
+            }
+           ;
         }
     }
 }

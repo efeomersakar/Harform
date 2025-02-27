@@ -8,19 +8,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     private Rigidbody rb;
     private Vector3 startPosition;
+    private Vector2 InputstartPosition;
+
     private Vector2 inputDirection;
     private Vector2 keyboardInput;
+    public BoxCollider PlayerBox;
 
     void OnEnable()
     {
         EventManager.Instance.OnPlayerGotDamaged += PlayerStartPosition;
         EventManager.Instance.OnPlayerKilled += PlayDeathAnimation;
+        EventManager.Instance.OnInitial += GameInitial;
+
     }
 
     void OnDisable()
     {
         EventManager.Instance.OnPlayerGotDamaged -= PlayerStartPosition;
         EventManager.Instance.OnPlayerKilled -= PlayDeathAnimation;
+        EventManager.Instance.OnInitial -= GameInitial;
     }
 
     void Start()
@@ -36,8 +42,18 @@ public class PlayerController : MonoBehaviour
             HandleKeyboardInput();
             HandleTouchInput();
             HandleMovement();
+            PlayerBox.enabled = true;
+        }
+        if(GameManager.Instance.lives==0)
+        {
+            PlayerBox.enabled = false;  
         }
     }
+    private void GameInitial()
+    {
+
+    }
+
 
     private void HandleMovement()
     {
@@ -68,7 +84,7 @@ public class PlayerController : MonoBehaviour
             isInputActive = true;
         }
 #else
-    if (Input.touchCount > 0)
+    if (Input.touchCount > 0 && Input.touchCount< 1)
     {
         Touch touch = Input.GetTouch(0);
         touchPosition = touch.position;
@@ -77,7 +93,7 @@ public class PlayerController : MonoBehaviour
         if (touch.phase == TouchPhase.Ended)
         {
             inputDirection = Vector2.zero;
-            Debug.Log("kullanıcı dokunmayı nıraktı");
+           
             return;
         }
  

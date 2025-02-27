@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         EventManager.Instance.OnEnemyAttacked += EnemyHit;
         EventManager.Instance.onEndgameController += LevelComplete;
         EventManager.Instance.OnLevelFailed += LevelFailed;
-
+        EventManager.Instance.OnInitial += GameInitial;
 
 
     }
@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
         EventManager.Instance.OnEnemyAttacked -= EnemyHit;
         EventManager.Instance.onEndgameController -= LevelComplete;
         EventManager.Instance.OnLevelFailed -= LevelFailed;
+        EventManager.Instance.OnInitial -= GameInitial;
 
 
     }
@@ -60,20 +61,28 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         EventManager.Instance.SetState(EventManager.GameState.MainMenu);
-        EventManager.Instance.SetState(EventManager.GameState.Initial);
+    }
+
+    private void GameInitial()
+    {
+        isGameContinue = true;
+        lives = 3;
+        coin = 0;
+        EndGameTime = 30f;
+        EventManager.Instance.SetState(EventManager.GameState.GameContinue);
     }
 
     private void Update()
     {
         if (EventManager.Instance.currentState == EventManager.GameState.GameContinue)
         {
-            isGameContinue = true;
+
             EndGameTime -= Time.deltaTime;
         }
 
-        if (EndGameTime < 0 || isEnemyHit)
+        if (EndGameTime < 0 || isEnemyHit) 
         {
-            if (lives > 0)
+            if (lives > 0 && isGameContinue)
             {
                 lives--;
                 EndGameTime = 30f;
@@ -83,20 +92,30 @@ public class GameManager : MonoBehaviour
 
             if (lives == 0 && isGameContinue)
             {
-                
+
                 EventManager.Instance.EndGame(false, lives);
                 EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerGotKilled);
-                DOVirtual.DelayedCall(1f, () =>
-    {
-        EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
-    });
-            isGameContinue=false;
+                StartCoroutine(failWait());
+                isGameContinue = false;
+                
+                //             DOVirtual.DelayedCall(1f, () =>
+                // {
+                //     EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
+                // });
+
             }
 
         }
 
     }
     //==========================================================================
+    IEnumerator failWait()
+    {
+        yield return new WaitForSeconds(1);
+        EventManager.Instance.SetState(EventManager.GameState.LevelFailed);
+    }
+    //==========================================================================
+
     public void LevelComplete(bool isWin, int coin)
     {
         if (isWin && (level == 3 || coin >= minimumCoin))

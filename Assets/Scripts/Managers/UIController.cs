@@ -251,7 +251,7 @@ public class UIController : MonoBehaviour
     private void PlayGame()
     {
         SceneManager.LoadScene("Level1");
-        EventManager.Instance.SetState(EventManager.GameState.GameContinue);
+        EventManager.Instance.SetState(EventManager.GameState.Initial);
     }
 
     //==================================================================================
@@ -281,13 +281,13 @@ public class UIController : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "DefeatScene")
         {
-            GameManager.Instance.lives = 3;
-            GameManager.Instance.coin = 0;
-            GameManager.Instance.EndGameTime = 30f;
+
             SceneManager.LoadScene("Level" + GameManager.Instance.level);
-            EventManager.Instance.SetState(EventManager.GameState.GameContinue);
+            EventManager.Instance.SetPlayerState(EventManager.PlayerState.PlayerInitial);
+            EventManager.Instance.SetState(EventManager.GameState.Initial);
+
         }
-    }
+    }   
 
     //==================================================================================
 

@@ -17,7 +17,10 @@ public class EventManager : MonoBehaviour
     public event Action OnLevelCompleted;
     public event Action OnEnemyAttacked;
     public event Action OnPlayerKilled;
-    public event Action  OnPlayerGotDamaged;
+    public event Action OnPlayerInitial;
+    public event Action OnPlayerGotDamaged;
+    public event Action OnGameNull;
+
 
     //=======================================================================
     public delegate void rewardCollected(Vector3 SpawnPosition);
@@ -99,10 +102,12 @@ public class EventManager : MonoBehaviour
                 break;
             case GameState.LevelFailed:
                 OnLevelFailed?.Invoke();
-                
                 break;
             case GameState.LevelComplete:
                 OnLevelCompleted?.Invoke();
+                break;
+            case GameState.NullState:
+                OnGameNull?.Invoke();
                 break;
         }
     }
@@ -113,11 +118,13 @@ public class EventManager : MonoBehaviour
         switch (PlayerCurrentState)
         {
 
-
+            case PlayerState.PlayerInitial:
+                OnPlayerInitial?.Invoke();
+                break;
             case PlayerState.PlayerGotKilled:
                 OnPlayerKilled?.Invoke();
                 break;
-                case PlayerState.PlayerGotDamaged:
+            case PlayerState.PlayerGotDamaged:
                 OnPlayerGotDamaged?.Invoke();
                 break;
         }
@@ -132,10 +139,12 @@ public class EventManager : MonoBehaviour
         GameContinue,
         PauseLevel,
         LevelFailed,
-        LevelComplete
+        LevelComplete,
+        NullState
     }
     public enum PlayerState
     {
+        PlayerInitial,
         PlayerGotDamaged,
         PlayerGotKilled
 
